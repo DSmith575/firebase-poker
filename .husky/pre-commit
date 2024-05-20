@@ -1,1 +1,1 @@
-npm run pretty:fix
+npx lint-staged
