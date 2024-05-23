@@ -7,9 +7,9 @@ const App = () => {
   return (
     <>
       <RouterProvider router={router} />
-      <div>
+      {/* <div>
         <Button styles={'bg-black'} text={'test'} />
-      </div>
+      </div> */}
     </>
   );
 };
