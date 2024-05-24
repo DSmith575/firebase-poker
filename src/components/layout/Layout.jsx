@@ -1,4 +1,5 @@
-import NavBar from './Navigation/Navbar';
+import NavBar from './navigation/NavBar';
+
 const Layout = () => {
   return (
     <>

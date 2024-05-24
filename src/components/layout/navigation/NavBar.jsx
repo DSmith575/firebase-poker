@@ -13,7 +13,7 @@ const NavBar = () => {
         </div>
         <ul className="flex flex-row gap-2">
           {routes.map((route, index) => (
-            <li key={index} className="border rounded-lg hover:bg-sky-300 p-2">
+            <li key={index} className="px-4 hover:underline">
               <NavLink to={route.path}>{route.label}</NavLink>
             </li>
           ))}
