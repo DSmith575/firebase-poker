@@ -1,5 +1,6 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
+import ErrorPage from '../pages/errors/ErrorPage';
 import routes from './routerList';
 
 const AppLayout = () => {
@@ -14,7 +15,7 @@ const AppLayout = () => {
 const routerConfig = [
   {
     element: <AppLayout />,
-    errorElement: '',
+    errorElement: <ErrorPage />,
     children: routes.map((route) => ({
       path: route.path,
       element: route.element,

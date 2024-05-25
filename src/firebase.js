@@ -13,12 +13,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-const firebaseAuth = getAuth(app);
-
 initializeFirestore(app, {
-  localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+  localCache: persistentLocalCache(),
+  tabManager: persistentMultipleTabManager(),
+  // localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
 });
 
-const db = getFirestore(app);
-
-export { firebaseAuth, db };
+export const auth = getAuth(app);
+export const firestore = getFirestore(app);

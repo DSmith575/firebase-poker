@@ -1,8 +1,10 @@
+import HomePage from '../pages/homePage/HomePage';
+
 const routes = [
   {
     path: '/',
     label: 'Home',
-    element: 'HomePage',
+    element: <HomePage />,
   },
   {
     path: '/signup',
