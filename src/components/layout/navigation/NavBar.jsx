@@ -5,7 +5,7 @@ import routes from '../../../router/routerList';
 const NavBar = () => {
   return (
     <>
-      <nav className="h-16 w-screen bg-[#e2e2e2] flex justify-between items-center">
+      <nav className="h-16 w-screen mx:0 bg-[#e2e2e2] flex justify-between items-center">
         <div>
           <NavLink to={'/'}>
             <GiCardJoker

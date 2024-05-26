@@ -1,5 +1,5 @@
 import HomePage from '../pages/homePage/HomePage';
-import Login from '../components/authentication/Login';
+import LoginPage from '../pages/auth/LoginPage';
 import SignOut from '../components/authentication/Signout';
 import GamePage from '../pages/games/GamePage';
 
@@ -17,7 +17,7 @@ const routes = [
   {
     path: '/login',
     label: 'Login',
-    element: <Login />,
+    element: <LoginPage />,
   },
   {
     path: '/signout',
