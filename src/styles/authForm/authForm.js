@@ -2,6 +2,7 @@ export const formStyles = {
   formBase:
     'relative bg-white px-6 pt-10 flex flex-col w-[500px] items-center border pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10',
   formHeader: 'text-6xl p-4',
+  authCardIcon: 'text-[150px] absolute top-0 right-0 rotate-[30deg]',
 };
 
 export const authSectionStyles = {
