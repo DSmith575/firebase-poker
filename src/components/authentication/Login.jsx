@@ -2,8 +2,9 @@ import { useState } from 'react';
 import useLoading from '../../hooks/loading/useLoading';
 import { useUserAuth } from '../../context/FirestoreAuthContext';
 import { Navigate } from 'react-router-dom';
-import Button from '../button/Button';
 import { ImSpinner } from 'react-icons/im';
+import AuthForm from './forms/AuthForm';
+import { authSectionStyles } from '../../styles/authForm/authForm';
 
 const Login = () => {
   const [error, setError] = useState('');
@@ -17,11 +18,11 @@ const Login = () => {
   console.log(loading('login'));
 
   const handleSignIn = async (event) => {
-    event.preventDefault();
-    setLoading('login', true);
     try {
-      await signInAnonUser();
+      event.preventDefault();
       setError('');
+      setLoading('login', true);
+      await signInAnonUser();
     } catch (error) {
       setError(error.message);
     } finally {
@@ -30,28 +31,27 @@ const Login = () => {
   };
 
   return (
-    <section className="relative flex flex-col justify-center overflow-hidden bg-gray-50 sm:py-12">
-      <div className="mx-auto max-w-md">
-        <h1 className="text-6xl p-4">Login</h1>
-        <form onSubmit={handleSignIn}>
-          <Button
-            styles={`p-4 w-[185px] flex justify-center border rounded-lg bg-slate-500 text-white hover:bg-sky-600 transition ease-in-and-out duration-700`}
-            type="submit"
-            disabled={loading('login')}
-            label={
-              loading('login') ? (
-                <>
-                  <ImSpinner className="animate-spin h-6 w-6" />
-                </>
-              ) : (
-                'Sign In Anonymously'
-              )
-            }
-          />
-          {error && <p>{error}</p>}
-        </form>
-      </div>
-    </section>
+    <>
+      <section className={authSectionStyles.authBase}>
+        <AuthForm
+          formLabel={'Login'}
+          handleSubmit={handleSignIn}
+          buttonStyles={authSectionStyles.authButton}
+          buttonType="submit"
+          loadingState={loading('login')}
+          buttonLabel={
+            loading('login') ? (
+              <>
+                <ImSpinner className={authSectionStyles.authButtonSpinner} />
+              </>
+            ) : (
+              'Sign In Anonymously'
+            )
+          }
+        />
+        {error && <p>{error}</p>}
+      </section>
+    </>
   );
 };
 
