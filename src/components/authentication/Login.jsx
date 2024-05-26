@@ -15,8 +15,6 @@ const Login = () => {
     return <Navigate to={'/'} replace={true} />;
   }
 
-  console.log(loading('login'));
-
   const handleSignIn = async (event) => {
     try {
       event.preventDefault();

@@ -8,8 +8,12 @@ import { authSectionStyles } from '../../styles/authForm/authForm';
 
 const SignOut = () => {
   const [error, setError] = useState('');
-  const { logout } = useUserAuth();
+  const { user, logout } = useUserAuth();
   const { loading, setLoading } = useLoading();
+
+  if (!user) {
+    return <Navigate to={'/'} replace={true} />;
+  }
 
   const handleSignOut = async (event) => {
     try {
