@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import routes from '../../../router/routerList';
 import { GiCardJoker } from 'react-icons/gi';
+import routes from '../../../router/routerList';
 
 const NavBar = () => {
   return (

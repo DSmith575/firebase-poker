@@ -1,6 +1,7 @@
+import { createGameForm, formStyles } from '../../../styles/authForm/authForm';
+import { GiCardAceHearts } from 'react-icons/gi';
 import InputField from '../../input/Input';
 import Button from '../../button/Button';
-import { createGameForm, formStyles } from '../../../styles/authForm/authForm';
 
 const CreateGameForm = ({
   handleCreateSubmit,
@@ -16,6 +17,7 @@ const CreateGameForm = ({
 }) => {
   return (
     <form onSubmit={handleCreateSubmit} className={formStyles.formBase}>
+      <GiCardAceHearts className={'text-[75px] absolute top-2 left-0 '} />
       <InputField
         styles={createGameForm.input}
         inputType={inputType}

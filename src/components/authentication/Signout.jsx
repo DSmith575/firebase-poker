@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import useLoading from '../../hooks/loading/useLoading';
-import { useUserAuth } from '../../context/FirestoreAuthContext';
 import { Navigate } from 'react-router-dom';
-import { ImSpinner } from 'react-icons/im';
-import AuthForm from './forms/AuthForm';
+import { useUserAuth } from '../../context/FirestoreAuthContext';
 import { authSectionStyles } from '../../styles/authForm/authForm';
+import ButtonSpinner from '../spinner/ButtonSpinner';
+import AuthForm from './forms/AuthForm';
+import useLoading from '../../hooks/loading/useLoading';
 
 const SignOut = () => {
   const [error, setError] = useState('');
@@ -39,15 +39,7 @@ const SignOut = () => {
           buttonStyles={authSectionStyles.authButton}
           buttonType="submit"
           loadingState={loading('signout')}
-          buttonLabel={
-            loading('signout') ? (
-              <>
-                <ImSpinner className={authSectionStyles.authButtonSpinner} />
-              </>
-            ) : (
-              'Sign out'
-            )
-          }
+          buttonLabel={loading('signout') ? <ButtonSpinner /> : 'Sign out'}
         />
         {error && <p>{error}</p>}
       </section>

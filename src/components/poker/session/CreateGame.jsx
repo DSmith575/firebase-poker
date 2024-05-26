@@ -1,13 +1,12 @@
-import { createGame } from '../../../firestore/firestoreFunctions';
 import { useState } from 'react';
+import { createGame } from '../../../firestore/firestoreFunctions';
 import { useUserAuth } from '../../../context/FirestoreAuthContext';
+import { authSectionStyles } from '../../../styles/authForm/authForm';
+import CreateGameForm from '../forms/CreateGameForm';
+import PlayerGridForm from '../forms/PlayerGridForm';
+import ButtonSpinner from '../../spinner/ButtonSpinner';
 import useFormInput from '../../../hooks/forms/useFormInput';
 import useLoading from '../../../hooks/loading/useLoading';
-import CreateGameForm from '../forms/CreateGameForm';
-import { ImSpinner } from 'react-icons/im';
-import { authSectionStyles, createGameForm, formStyles } from '../../../styles/authForm/authForm';
-import Button from '../../button/Button';
-import PlayerGridForm from '../forms/PlayerGridForm';
 
 const CreateGame = () => {
   const [error, setError] = useState('');
@@ -50,15 +49,7 @@ const CreateGame = () => {
           buttonStyles={authSectionStyles.authButton}
           buttonType={'submit'}
           loadingState={loading('createGame')}
-          buttonLabel={
-            loading('createGame') ? (
-              <>
-                <ImSpinner className={authSectionStyles.authButtonSpinner} />
-              </>
-            ) : (
-              'Create Game'
-            )
-          }>
+          buttonLabel={loading('createGame') ? <ButtonSpinner /> : 'Create Game'}>
           <div className="my-8">
             <PlayerGridForm
               type={'button'}

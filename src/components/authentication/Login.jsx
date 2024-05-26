@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useLoading from '../../hooks/loading/useLoading';
 import { useUserAuth } from '../../context/FirestoreAuthContext';
 import { Navigate } from 'react-router-dom';
-import { ImSpinner } from 'react-icons/im';
+import ButtonSpinner from '../spinner/ButtonSpinner';
 import AuthForm from './forms/AuthForm';
 import { authSectionStyles } from '../../styles/authForm/authForm';
 
@@ -37,15 +37,7 @@ const Login = () => {
           buttonStyles={authSectionStyles.authButton}
           buttonType="submit"
           loadingState={loading('login')}
-          buttonLabel={
-            loading('login') ? (
-              <>
-                <ImSpinner className={authSectionStyles.authButtonSpinner} />
-              </>
-            ) : (
-              'Sign In Anonymously'
-            )
-          }
+          buttonLabel={loading('login') ? <ButtonSpinner /> : 'Sign In Anonymously'}
         />
         {error && <p>{error}</p>}
       </section>
