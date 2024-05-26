@@ -79,7 +79,7 @@ describe('createGame', () => {
     createGame.mockResolvedValueOnce(gameInformation);
     const { gameName, playerLength, ownerId } = gameInformation;
     try {
-      await createGame(...gameInformation);
+      await createGame(gameName, playerLength, ownerId);
       expect(createGame).toHaveBeenCalledWith(gameName, playerLength, ownerId);
     } catch (error) {
       console.log(error);
