@@ -20,7 +20,6 @@ jobs:
       - name: Install dependencies and setup Emulator
         run: |
           npm install
-          npm run dev
           npm run emulator &
 
       - name: Wait for services to start
