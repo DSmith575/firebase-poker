@@ -11,3 +11,10 @@ export const authSectionStyles = {
     'p-4 w-[185px] flex justify-center border rounded-lg bg-slate-500 text-white hover:bg-sky-600 transition ease-in-and-out duration-700',
   authButtonSpinner: 'animate-spin h-6 w-6',
 };
+
+export const createGameForm = {
+  input: 'border-2 border-gray-300 p-2 rounded-md',
+  isActive: 'bg-blue-500 text-white',
+  isInactive: 'bg-red-500 text-gray-800',
+  button: 'px-4 py-2 rounded-md focus:outline-none',
+};

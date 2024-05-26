@@ -1,44 +1,77 @@
 import { createGame } from '../../../firestore/firestoreFunctions';
 import { useState } from 'react';
 import { useUserAuth } from '../../../context/FirestoreAuthContext';
+import useFormInput from '../../../hooks/forms/useFormInput';
+import useLoading from '../../../hooks/loading/useLoading';
+import CreateGameForm from '../forms/CreateGameForm';
+import { ImSpinner } from 'react-icons/im';
+import { authSectionStyles, createGameForm, formStyles } from '../../../styles/authForm/authForm';
+import Button from '../../button/Button';
+import PlayerGridForm from '../forms/PlayerGridForm';
 
 const CreateGame = () => {
-  const [gameName, setGameName] = useState('');
-  const [maxPlayers, setMaxPLayers] = useState(2);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useLoading();
   const { user } = useUserAuth();
+  const gameName = useFormInput('');
+  const playerLimit = useFormInput(2);
+
+  const checkGameName = () => {
+    if (gameName.value.length < 1 || gameName.value.startsWith(' ')) {
+      throw new Error('Game name must be at least 1 character long and not start with a space');
+    }
+  };
 
   const handleCreation = async (event) => {
     try {
       event.preventDefault();
       setError('');
+      checkGameName();
       setLoading('createGame', true);
-      await createGame(gameName, maxPlayers, user);
+      await createGame(gameName.value, playerLimit.value, user);
     } catch (error) {
       setError(error.message);
     } finally {
       setLoading('createGame', false);
-      setMaxPLayers(2);
-      setGameName('');
+      gameName.reset();
+      playerLimit.reset();
     }
   };
 
   return (
-    <form onSubmit={handleCreation}>
-      <label>
-        Game Name:
-        <input type="text" value={gameName} onChange={(e) => setGameName(e.target.value)} />
-      </label>
-      <label>
-        Max Players:
-        <input type="number" value={maxPlayers} onChange={(e) => setMaxPLayers(e.target.value)} />
-      </label>
-      <button type="submit" disabled={loading}>
-        {loading ? 'Creating Game...' : 'Create Game'}
-      </button>
-      {error && <p>{error}</p>}
-    </form>
+    <>
+      <section className={authSectionStyles.authBase}>
+        <CreateGameForm
+          handleCreateSubmit={handleCreation}
+          inputType={'text'}
+          placeHolder={'Game Name...'}
+          value={gameName.value}
+          onChange={gameName.onChange}
+          buttonStyles={authSectionStyles.authButton}
+          buttonType={'submit'}
+          loadingState={loading('createGame')}
+          buttonLabel={
+            loading('createGame') ? (
+              <>
+                <ImSpinner className={authSectionStyles.authButtonSpinner} />
+              </>
+            ) : (
+              'Create Game'
+            )
+          }>
+          <div className="my-8">
+            <PlayerGridForm
+              type={'button'}
+              disabled={loading('createGame')}
+              value={playerLimit.value}
+              onClick={playerLimit.onClick}
+              label={playerLimit.value}
+            />
+          </div>
+          {error && <p className={'text-red-500 text-center'}>{error}</p>}
+        </CreateGameForm>
+      </section>
+    </>
   );
 };
 
