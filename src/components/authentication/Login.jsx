@@ -4,7 +4,7 @@ import { useUserAuth } from '../../context/FirestoreAuthContext';
 import { Navigate } from 'react-router-dom';
 import ButtonSpinner from '../spinner/ButtonSpinner';
 import AuthForm from './forms/AuthForm';
-import { authSectionStyles } from '../../styles/authForm/authForm';
+import { authSectionStyles } from '../../styles/authForm/authFormStyles';
 
 const Login = () => {
   const [error, setError] = useState('');

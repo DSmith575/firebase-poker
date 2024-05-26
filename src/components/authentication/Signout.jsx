@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useUserAuth } from '../../context/FirestoreAuthContext';
-import { authSectionStyles } from '../../styles/authForm/authForm';
+import { authSectionStyles } from '../../styles/authForm/authFormStyles';
 import ButtonSpinner from '../spinner/ButtonSpinner';
 import AuthForm from './forms/AuthForm';
 import useLoading from '../../hooks/loading/useLoading';

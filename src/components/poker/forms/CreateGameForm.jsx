@@ -1,4 +1,4 @@
-import { createGameForm, formStyles } from '../../../styles/authForm/authForm';
+import { createGameForm, formStyles } from '../../../styles/authForm/authFormStyles';
 import { GiCardAceHearts } from 'react-icons/gi';
 import InputField from '../../input/Input';
 import Button from '../../button/Button';

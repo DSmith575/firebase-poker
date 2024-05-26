@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { createGame } from '../../../firestore/firestoreFunctions';
 import { useUserAuth } from '../../../context/FirestoreAuthContext';
-import { authSectionStyles } from '../../../styles/authForm/authForm';
+import { authSectionStyles } from '../../../styles/authForm/authFormStyles';
 import CreateGameForm from '../forms/CreateGameForm';
 import PlayerGridForm from '../forms/PlayerGridForm';
 import ButtonSpinner from '../../spinner/ButtonSpinner';
@@ -14,7 +14,6 @@ const CreateGame = () => {
   const { user } = useUserAuth();
   const gameName = useFormInput('');
   const playerLimit = useFormInput(2);
-
   const checkGameName = () => {
     if (gameName.value.length < 1 || gameName.value.startsWith(' ')) {
       throw new Error('Game name must be at least 1 character long and not start with a space');
@@ -52,7 +51,7 @@ const CreateGame = () => {
           buttonLabel={loading('createGame') ? <ButtonSpinner /> : 'Create Game'}>
           <div className="my-8">
             <PlayerGridForm
-              type={'button'}
+              playerGridLabel={'Players: '}
               disabled={loading('createGame')}
               value={playerLimit.value}
               onClick={playerLimit.onClick}

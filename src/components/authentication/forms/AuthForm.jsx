@@ -1,5 +1,5 @@
 import Button from '../../button/Button';
-import { formStyles } from '../../../styles/authForm/authForm';
+import { formStyles } from '../../../styles/authForm/authFormStyles';
 import { GiPokerHand } from 'react-icons/gi';
 
 const AuthForm = ({ formLabel, handleSubmit, buttonStyles, buttonType, loadingState, buttonLabel }) => {

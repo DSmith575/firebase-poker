@@ -1,11 +1,11 @@
-import { createGameForm } from '../../../styles/authForm/authForm';
+import { createGameForm } from '../../../styles/authForm/authFormStyles';
 import Button from '../../button/Button';
 
-const PlayerGridForm = ({ disabled, value, onClick }) => {
+const PlayerGridForm = ({ disabled, value, onClick, playerGridLabel }) => {
   return (
     <>
       <div className="flex space-x-2 border p-4 rounded-lg  shadow-lg">
-        <h1 className="flex items-center text-2xl">Players: </h1>
+        <h1 className="flex items-center text-2xl">{playerGridLabel}</h1>
         {[2, 3, 4, 5].map((number) => (
           <Button
             type={'button'}

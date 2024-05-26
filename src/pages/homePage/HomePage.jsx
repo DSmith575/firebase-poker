@@ -1,10 +1,6 @@
 import CreateGame from '../../components/poker/session/CreateGame';
 const HomePage = () => {
-  return (
-    <>
-      <CreateGame />
-    </>
-  );
+  return <></>;
 };
 
 export default HomePage;

@@ -1,5 +1,5 @@
 import { ImSpinner } from 'react-icons/im';
-import { authSectionStyles } from '../../styles/authForm/authForm';
+import { authSectionStyles } from '../../styles/authForm/authFormStyles';
 const ButtonSpinner = () => {
   return <ImSpinner className={authSectionStyles.authButtonSpinner} />;
 };
