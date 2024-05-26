@@ -1,4 +1,6 @@
 import HomePage from '../pages/homePage/HomePage';
+import Login from '../components/authentication/Login';
+import SignOut from '../components/authentication/Signout';
 
 const routes = [
   {
@@ -7,14 +9,14 @@ const routes = [
     element: <HomePage />,
   },
   {
-    path: '/signup',
-    label: 'Sign up',
-    element: 'Sign up',
-  },
-  {
     path: '/login',
     label: 'Login',
-    element: 'Login',
+    element: <Login />,
+  },
+  {
+    path: '/signout',
+    label: 'Sign out',
+    element: <SignOut />,
   },
 ];
 

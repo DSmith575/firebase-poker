@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getAuth, signInAnonymously, signOut, onAuthStateChanged } from 'firebase/auth';
+import { signInAnonymously, signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
 
 const UserContext = createContext();
@@ -15,6 +15,7 @@ const AuthContextProvider = ({ children }) => {
     return signInAnonymously(auth);
   };
 
+  // Using logout over signOut as it was causing a recursive loop
   const logout = () => {
     return signOut(auth);
   };
@@ -22,7 +23,6 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     return onAuthStateChanged(auth, (currentUser) => {
       currentUser ? setUser(currentUser.uid) : setUser(null);
-      console.log(currentUser);
     });
   }, []);
 
