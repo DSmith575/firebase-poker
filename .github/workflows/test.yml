@@ -1,0 +1,32 @@
+name: Test Suite
+
+on:
+  push:
+    branches-ignore:
+      - 'main'
+
+jobs:
+  Test-Suite:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20.9.0
+
+      - name: Install dependencies and setup Emulator
+        run: |
+          npm install
+          npm run dev
+          npm run emulator &
+
+      - name: Wait for services to start
+        run: |
+          sleep 10
+
+      - name: Run tests
+        run: |
+          npm run test

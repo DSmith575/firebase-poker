@@ -28,7 +28,7 @@ const CreateGame = () => {
       setLoading('createGame', true);
       await createGame(gameName.value, playerLimit.value, user);
     } catch (error) {
-      setError(error.message);
+      setError(`${error.message} Are you signed in?`);
     } finally {
       setLoading('createGame', false);
       gameName.reset();
