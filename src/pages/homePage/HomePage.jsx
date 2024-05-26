@@ -1,4 +1,5 @@
-import CreateGame from '../../components/poker/session/CreateGame';
+import GameList from '../../components/poker/session/GameList';
+
 const HomePage = () => {
   return <></>;
 };

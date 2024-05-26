@@ -1,7 +1,7 @@
 import HomePage from '../pages/homePage/HomePage';
 import Login from '../components/authentication/Login';
 import SignOut from '../components/authentication/Signout';
-import CreateGamePage from '../pages/createGame/CreateGamePage';
+import GamePage from '../pages/games/GamePage';
 
 const routes = [
   {
@@ -10,14 +10,9 @@ const routes = [
     element: <HomePage />,
   },
   {
-    path: '/creategame',
-    label: 'Create Game',
-    element: <CreateGamePage />,
-  },
-  {
-    path: '/play',
-    label: 'Game List',
-    element: 'Game List Page',
+    path: '/games',
+    label: 'Games',
+    element: <GamePage />,
   },
   {
     path: '/login',
