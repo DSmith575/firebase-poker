@@ -1,5 +1,5 @@
 import { firestore } from '../firebase';
-import { collection, addDoc, onSnapshot, query } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, query, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 
 export const createGame = async (gameName, playerLength, ownerId) => {
   try {
@@ -26,4 +26,17 @@ export const getGameList = async ({ collectionName, callback }) => {
   } catch (error) {
     throw error;
   }
+};
+
+export const joinGame = async (playerId, gameId, currentTurn) => {
+  const playerRef = doc(firestore, 'games', gameId, 'players', playerId);
+  const gameRef = doc(firestore, 'games', gameId);
+
+  await updateDoc(gameRef, { joinedPlayers: arrayUnion(playerId) });
+
+  await updateDoc(playerRef, {
+    playerId: playerId,
+    currentTurn: currentTurn,
+    discarded: [],
+  });
 };

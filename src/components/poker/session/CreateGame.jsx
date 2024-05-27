@@ -14,6 +14,13 @@ const CreateGame = () => {
   const { user } = useUserAuth();
   const gameName = useFormInput('');
   const playerLimit = useFormInput(2);
+
+  const checkUserLoggedIn = (user) => {
+    if (!user) {
+      throw new Error('You must be signed in to create a game');
+    }
+  };
+
   const checkGameName = () => {
     if (gameName.value.length < 1 || gameName.value.startsWith(' ')) {
       throw new Error('Game name must be at least 1 character long and not start with a space');
@@ -24,11 +31,12 @@ const CreateGame = () => {
     try {
       event.preventDefault();
       setError('');
+      checkUserLoggedIn(user);
       checkGameName();
       setLoading('createGame', true);
       await createGame(gameName.value, playerLimit.value, user);
     } catch (error) {
-      setError(`${error.message} Are you signed in?`);
+      setError(`${error.message}`);
     } finally {
       setLoading('createGame', false);
       gameName.reset();
