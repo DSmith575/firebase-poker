@@ -9,12 +9,13 @@ const useGameList = () => {
   const fetchGames = async () => {
     try {
       setLoading('gameList', true);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // await new Promise((resolve) => setTimeout(resolve, 2000));
       return getGameList({
         collectionName: 'games',
         callback: (snapshot) => {
           const updatedGameList = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-          setGames(updatedGameList);
+          const filterList = updatedGameList.filter((game) => game.started === false);
+          setGames(filterList);
         },
       });
     } catch (error) {

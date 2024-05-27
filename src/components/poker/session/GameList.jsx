@@ -1,5 +1,6 @@
 import useGameList from '../../../hooks/games/useGameList';
-import Button from '../../button/Button';
+import JoinGame from './JoinGame';
+
 const GameList = () => {
   const { games, loading } = useGameList();
 
@@ -9,27 +10,39 @@ const GameList = () => {
         <div className="">
           {loading('gameList') ? (
             <>
+              {/* flex justify-center */}
               <div className={'w-screen flex justify-center text-5xl'}>
                 <p>Finding games...</p>
               </div>
             </>
           ) : (
-            <>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3">
               {games.map((game) => (
                 <div
                   key={game.id}
-                  className="max-h-[150px] max-w-[350px] rounded-xl mb-4 mx-2 px-4 bg-slate-500 transition duration-700 ease-in-out hover:bg-sky-500">
-                  <p>Owner: {game.owner}</p>
-                  <h2>Game Name: {game.gameName}</h2>
+                  className="text-center rounded-xl my-2 mx-2 bg-slate-500 transition duration-700 ease-in-out hover:bg-sky-500">
+                  {/* <p>Owner: {game.owner}</p> */}
+                  <h2>{game.gameName}</h2>
                   <p>Player Limit: {game.totalPlayers}</p>
-                  <p>Game Started? {game.started.toString()}</p>
-                  <Button type={'button'} onClick={() => console.log('Join Game')} label={'Join Game'} />
+                  {/* <p>Game Started? {game.started.toString()}</p> */}
+                  <JoinGame gameId={game.id} gameStarted={game.owner} />
                 </div>
               ))}
-            </>
+            </div>
           )}
         </div>
       </section>
+      {/* <section>
+      {games.map((game) => (
+        <div key={game.id}>
+          <h1>{game.gameName}</h1>
+          <h2>{game.owner}</h2>
+          <h3>{game.totalPlayers}</h3>
+          <h4>{game.started.toString()}</h4>
+        </div>
+      ))}
+
+      </section> */}
     </>
   );
 };
