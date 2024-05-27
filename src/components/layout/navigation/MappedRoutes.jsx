@@ -1,6 +1,5 @@
 import routes from '../../../router/routerList';
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
 
 const MappedRoutes = () => {
   return (
@@ -8,7 +7,7 @@ const MappedRoutes = () => {
       {routes.map((route, index) => (
         <li
           key={index}
-          className="flex md:items-center md:h-8 md:px-10 md:bg-gradient-to-r md:from-sky-500 md:via-slate-500 md:to-gray-900 md:rounded-tl-full md:rounded-br-full md:font-bold md:uppercase md:italic md:text-white hover:opacity-70 md:mr-4">
+          className="flex ring-3 rounded-lg p-4 md:items-center italic md:h-8 md:px-10 md:bg-gradient-to-r md:from-sky-500 md:via-slate-500 md:to-gray-900 md:rounded-tl-full md:rounded-br-full md:font-bold md:uppercase md:italic md:text-white hover:opacity-70 md:mr-4">
           <NavLink to={route.path}>{route.label}</NavLink>
         </li>
       ))}

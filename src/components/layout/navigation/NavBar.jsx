@@ -10,7 +10,7 @@ const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
   return (
     <>
-      <header className="flex flex-col sm:flex-row items-center md:justify-between p-2 border-b-2 bg-gray-100">
+      <header className="flex sticky top-0 z-50 flex-col sm:flex-row items-center md:justify-between p-2 border-b-2 bg-gray-100">
         <div>
           <NavLink to={'/'}>
             <GiCardJoker

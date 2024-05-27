@@ -9,7 +9,6 @@ const useGameList = () => {
   const fetchGames = async () => {
     try {
       setLoading('gameList', true);
-      console.log(loading('gameList'));
       await new Promise((resolve) => setTimeout(resolve, 2000));
       return getGameList({
         collectionName: 'games',
@@ -27,7 +26,6 @@ const useGameList = () => {
 
   useEffect(() => {
     fetchGames();
-    console.log(loading);
   }, []);
 
   return { games, loading };

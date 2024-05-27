@@ -15,7 +15,7 @@ const CreateGame = () => {
   const gameName = useFormInput('');
   const playerLimit = useFormInput(2);
 
-  const checkUserLoggedIn = (user) => {
+  const checkUserLoggedIn = () => {
     if (!user) {
       throw new Error('You must be signed in to create a game');
     }
@@ -31,7 +31,7 @@ const CreateGame = () => {
     try {
       event.preventDefault();
       setError('');
-      checkUserLoggedIn(user);
+      checkUserLoggedIn();
       checkGameName();
       setLoading('createGame', true);
       await createGame(gameName.value, playerLimit.value, user);

@@ -1,4 +1,5 @@
 import useGameList from '../../../hooks/games/useGameList';
+import Button from '../../button/Button';
 const GameList = () => {
   const { games, loading } = useGameList();
 
@@ -22,6 +23,7 @@ const GameList = () => {
                   <h2>Game Name: {game.gameName}</h2>
                   <p>Player Limit: {game.totalPlayers}</p>
                   <p>Game Started? {game.started.toString()}</p>
+                  <Button type={'button'} onClick={() => console.log('Join Game')} label={'Join Game'} />
                 </div>
               ))}
             </>

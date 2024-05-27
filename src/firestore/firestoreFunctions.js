@@ -1,5 +1,5 @@
 import { firestore } from '../firebase';
-import { collection, addDoc, onSnapshot, query, arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, query, arrayUnion, doc, updateDoc, orderBy } from 'firebase/firestore';
 
 export const createGame = async (gameName, playerLength, ownerId) => {
   try {
@@ -20,7 +20,7 @@ export const createGame = async (gameName, playerLength, ownerId) => {
 export const getGameList = async ({ collectionName, callback }) => {
   try {
     const gameRef = collection(firestore, collectionName);
-    const gamesQuery = query(gameRef);
+    const gamesQuery = query(gameRef, orderBy('totalPlayers'));
 
     return onSnapshot(gamesQuery, callback);
   } catch (error) {
