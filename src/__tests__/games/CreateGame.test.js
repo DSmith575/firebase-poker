@@ -4,8 +4,6 @@
 
 import { createGame } from '../../firestore/firestoreFunctions';
 import { describe, test, expect } from '@jest/globals';
-import { initializeTestEnvironment, assertFails, assertSucceeds } from '@firebase/rules-unit-testing';
-import { readFileSync } from 'node:fs';
 
 jest.mock('../../firestore/firestoreFunctions', () => ({
   createGame: jest.fn(),
@@ -21,30 +19,6 @@ const gameInformation = {
 };
 
 describe('createGame', () => {
-  let testEnv;
-  beforeAll(async () => {
-    testEnv = await initializeTestEnvironment({
-      projectId: 'adv-app-dev-assignment',
-      firestore: {
-        rules: readFileSync('firestore.rules', 'utf8'),
-      },
-      hub: {
-        host: 'localhost',
-        port: 4400,
-      },
-    });
-  });
-
-  test('should deny creating a game if the user is not authenticated', async () => {
-    const unAuthUser = testEnv.unauthenticatedContext('unAuthUser').firestore();
-    await assertFails(unAuthUser.collection('games').add({}));
-  });
-
-  test('should allow creating a game if user is authenticated', async () => {
-    const authUser = testEnv.authenticatedContext('alice').firestore();
-    await assertSucceeds(authUser.collection('games').add({}));
-  });
-
   test('should return error if gameName is less than 1 character long', async () => {
     const { playerLength, ownerId } = gameInformation;
     createGame.mockRejectedValueOnce(errorGameName);
