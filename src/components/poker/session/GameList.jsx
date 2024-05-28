@@ -1,10 +1,18 @@
+import { useState } from 'react';
 import useGameList from '../../../hooks/games/useGameList';
 import JoinGame from './JoinGame';
 import { ImSpinner2 } from 'react-icons/im';
-import ButtonSpinner from '../../spinner/ButtonSpinner';
+import Button from '../../button/Button';
+import InputField from '../../input/Input';
 
 const GameList = () => {
-  const { games, loading } = useGameList();
+  const [filter, setFilter] = useState(false);
+  const { games, loading } = useGameList(filter);
+
+  const changeFilter = () => {
+    setFilter(!filter);
+    console.log(filter);
+  };
 
   return (
     <>
@@ -14,6 +22,10 @@ const GameList = () => {
         </div>
       )}
       <section className="sm:mt-4 md:mt-4">
+        <div className="flex justify-center">
+          <InputField inputType={'checkbox'} label={'Filter'} onChange={changeFilter} styles={''} />
+          <span>Toggle your created games</span>
+        </div>
         <div className="">
           {!loading('gameList') ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3">
