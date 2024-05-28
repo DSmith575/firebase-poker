@@ -53,10 +53,12 @@ const CreateGame = () => {
           placeHolder={'Game Name...'}
           value={gameName.value}
           onChange={gameName.onChange}
-          buttonStyles={authSectionStyles.authButton}
+          buttonStyles={
+            'p-4 w-[185px] flex justify-center border rounded-lg bg-slate-500 text-white hover:bg-sky-600 transition ease-in-and-out duration-700'
+          }
           buttonType={'submit'}
           loadingState={loading('createGame')}
-          buttonLabel={loading('createGame') ? <ButtonSpinner /> : 'Create Game'}>
+          buttonLabel={loading('createGame') ? <ButtonSpinner styles={'animate-spin h-6 w-6'} /> : 'Create Game'}>
           <div className="my-8">
             <PlayerGridForm
               playerGridLabel={'Players: '}
