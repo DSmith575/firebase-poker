@@ -11,7 +11,8 @@ const useGameList = (filter) => {
   const fetchGames = async () => {
     try {
       setLoading('gameList', true);
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       return getGameList({
         collectionName: 'games',
         callback: (snapshot) => {
@@ -24,7 +25,7 @@ const useGameList = (filter) => {
         },
       });
     } catch (error) {
-      throw error;
+      console.log(error);
     } finally {
       setLoading('gameList', false);
     }

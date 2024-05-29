@@ -2,7 +2,6 @@ import { useState } from 'react';
 import useGameList from '../../../hooks/games/useGameList';
 import JoinGame from './JoinGame';
 import { ImSpinner2 } from 'react-icons/im';
-import Button from '../../button/Button';
 import InputField from '../../input/Input';
 
 const GameList = () => {
@@ -11,20 +10,17 @@ const GameList = () => {
 
   const changeFilter = () => {
     setFilter(!filter);
-    console.log(filter);
   };
 
   return (
     <>
-      {loading('gameList') && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <ImSpinner2 className="animate-spin h-10 w-10 text-slate-500" />
-        </div>
-      )}
       <section className="sm:mt-4 md:mt-4">
         <div className="flex justify-center">
-          <InputField inputType={'checkbox'} label={'Filter'} onChange={changeFilter} styles={''} />
-          <span>Toggle your created games</span>
+          <label className="pr-2" htmlFor="filter">
+            Filter created
+          </label>
+          <InputField inputType={'checkbox'} idLabel={'filter'} onChange={changeFilter} styles={''} />
+          {/* <span>Toggle your created games</span> */}
         </div>
         <div className="">
           {!loading('gameList') ? (
@@ -39,7 +35,13 @@ const GameList = () => {
                 </div>
               ))}
             </div>
-          ) : null}
+          ) : (
+            <>
+              <div className="flex items-center justify-center z-50">
+                <ImSpinner2 className="animate-spin h-10 w-10 text-black" />
+              </div>
+            </>
+          )}
         </div>
       </section>
     </>

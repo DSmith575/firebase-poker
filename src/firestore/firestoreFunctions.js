@@ -36,7 +36,7 @@ export const getGameList = async ({ collectionName, callback }) => {
 
     return onSnapshot(gamesQuery, callback);
   } catch (error) {
-    throw error;
+    return error;
   }
 };
 
