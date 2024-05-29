@@ -1,13 +1,7 @@
 import { useState } from 'react';
 import useGameList from '../../../hooks/games/useGameList';
-import JoinGame from './JoinGame';
 import { ImSpinner2 } from 'react-icons/im';
 import InputField from '../../input/Input';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-
 import MapGamesList from './MapGamesList';
 import GameListCarousel from '../../carousel/GameListCarousel';
 

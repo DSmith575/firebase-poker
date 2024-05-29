@@ -25,7 +25,7 @@ export const createGame = async (gameName, playerLength, ownerId) => {
     });
     return newGameRef.id;
   } catch (error) {
-    throw error;
+    return error;
   }
 };
 
@@ -53,6 +53,6 @@ export const joinGame = async (playerId, gameId, currentTurn) => {
       discarded: [],
     });
   } catch (error) {
-    throw error;
+    return error;
   }
 };
