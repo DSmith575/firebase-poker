@@ -8,6 +8,8 @@ const useGameList = (filter) => {
   const { loading, setLoading } = useLoading();
   const { user } = useUserAuth();
 
+  // Fetches the list of games from the Firestore database
+  // Moved to a custom hook, for re-usable code
   const fetchGames = async () => {
     try {
       setLoading('gameList', true);

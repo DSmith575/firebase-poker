@@ -10,7 +10,7 @@ const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
   return (
     <>
-      <header className="flex sticky size-full top-0 z-50 flex-col sm:flex-row items-center md:justify-between p-2 border-b-2 bg-gray-100">
+      <section className="flex sticky size-full top-0 z-50 flex-col sm:flex-row items-center md:justify-between p-2 border-b-2 bg-gray-100">
         <div>
           <NavLink to={'/'}>
             <GiCardJoker
@@ -30,7 +30,7 @@ const NavBar = () => {
           />
           {showMenu && <MappedRoutes />}
         </nav>
-      </header>
+      </section>
     </>
   );
 };

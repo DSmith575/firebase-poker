@@ -4,6 +4,7 @@ import { joinGame } from '../../../firestore/firestoreFunctions';
 import Button from '../../button/Button';
 import useLoading from '../../../hooks/loading/useLoading';
 import ButtonSpinner from '../../spinner/ButtonSpinner';
+
 const JoinGame = ({ gameId, gameStarted, playerList, totalPlayers }) => {
   const { user } = useUserAuth();
   const [error, setError] = useState('');
@@ -39,7 +40,7 @@ const JoinGame = ({ gameId, gameStarted, playerList, totalPlayers }) => {
         onClick={handleJoinGame}
         label={loading('joinGame') ? <ButtonSpinner styles={'w-6 h-6 animate-spin'} /> : 'Join Game'}
         styles={
-          'inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800  focus:outline-none'
+          'inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 '
         }
       />
     </>

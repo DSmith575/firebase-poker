@@ -1,12 +1,10 @@
 import CreateGame from '../../components/poker/session/CreateGame';
-import GameList from '../../components/poker/session/GameList';
+import GameList from '../../components/poker/session/gameList/GameList';
 import useGameList from '../../hooks/games/useGameList';
 import { ImSpinner2 } from 'react-icons/im';
-import { useUserAuth } from '../../context/FirestoreAuthContext';
 
 const GamePage = () => {
   const { loading } = useGameList();
-  const { user } = useUserAuth();
   return (
     <>
       {loading('gameList') ? (

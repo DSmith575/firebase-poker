@@ -9,7 +9,6 @@ const useFormInput = (initialValue) => {
 
   // Only used for the Create game set player limit buttons
   const handleClickPlayerLimit = (event) => {
-    console.log(event.target.value);
     setValue(parseInt(event.target.value));
   };
 
