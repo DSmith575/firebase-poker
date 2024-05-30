@@ -6,7 +6,9 @@ const PlayerGridForm = ({ disabled, value, onClick, playerGridLabel }) => {
     <>
       <div className="flex space-x-2 border p-4 rounded-lg  shadow-lg">
         <h1 className="flex items-center text-2xl">{playerGridLabel}</h1>
-        {[2, 3, 4, 5].map((number) => (
+
+        {/* Map an array of 2...3 for the player limit. Unsure if there is a better way to do this */}
+        {[2, 3].map((number) => (
           <Button
             type={'button'}
             disabled={disabled}

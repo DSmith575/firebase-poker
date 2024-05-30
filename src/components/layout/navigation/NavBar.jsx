@@ -1,11 +1,16 @@
 import { NavLink } from 'react-router-dom';
 import { GiCardJoker } from 'react-icons/gi';
-import routes from '../../../router/routerList';
+import { GrClose } from 'react-icons/gr';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import MappedRoutes from './MappedRoutes';
+import { useState } from 'react';
+import Button from '../../button/Button';
 
 const NavBar = () => {
+  const [showMenu, setShowMenu] = useState(false);
   return (
     <>
-      <nav className="h-16 bg-[#e2e2e2] flex justify-between items-center">
+      <section className="flex sticky size-full top-0 z-50 flex-col sm:flex-row items-center md:justify-between p-2 border-b-2 bg-gray-100">
         <div>
           <NavLink to={'/'}>
             <GiCardJoker
@@ -14,16 +19,18 @@ const NavBar = () => {
             />
           </NavLink>
         </div>
-        <>
-          <ul className="flex flex-row gap-2">
-            {routes.map((route, index) => (
-              <li key={index} className="px-4 hover:underline">
-                <NavLink to={route.path}>{route.label}</NavLink>
-              </li>
-            ))}
-          </ul>
-        </>
-      </nav>
+        <nav className="hidden md:flex justify-between items-center gap-4 font-semibold">
+          <MappedRoutes />
+        </nav>
+        <nav className="md:hidden flex flex-col items-end gap-1 font-semibold">
+          <Button
+            onClick={() => setShowMenu(!showMenu)}
+            styles={'md:hidden font-bold text-xl hover:text-gray-500 top-0 right-4 absolute'}
+            label={showMenu ? <GrClose className="text-3xl" /> : <GiHamburgerMenu className="text-3xl" />}
+          />
+          {showMenu && <MappedRoutes />}
+        </nav>
+      </section>
     </>
   );
 };

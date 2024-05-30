@@ -17,13 +17,15 @@ const CreateGameForm = ({
 }) => {
   return (
     <form onSubmit={handleCreateSubmit} className={formStyles.formBase}>
-      <GiCardAceHearts className={'text-[75px] absolute top-2 left-0 '} />
+      <GiCardAceHearts className={'hidden sm:block sm:text-[75px] absolute top-2 left-0'} />
       <InputField
         styles={createGameForm.input}
         inputType={inputType}
         placeHolder={placeHolder}
         value={value}
         onChange={onChange}
+        min={1}
+        max={10}
       />
       {children}
       <Button styles={buttonStyles} type={buttonType} disabled={loadingState} label={buttonLabel} />

@@ -39,7 +39,7 @@ const SignOut = () => {
           buttonStyles={authSectionStyles.authButton}
           buttonType="submit"
           loadingState={loading('signout')}
-          buttonLabel={loading('signout') ? <ButtonSpinner /> : 'Sign out'}
+          buttonLabel={loading('signout') ? <ButtonSpinner styles={'animate-spin h-6 w-6'} /> : 'Sign out'}
         />
         {error && <p>{error}</p>}
       </section>
