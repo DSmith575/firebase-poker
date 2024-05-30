@@ -14,6 +14,13 @@ const CreateGame = () => {
   const { user } = useUserAuth();
   const gameName = useFormInput('');
   const playerLimit = useFormInput(2);
+
+  const checkUserLoggedIn = () => {
+    if (!user) {
+      throw new Error('You must be signed in to create a game');
+    }
+  };
+
   const checkGameName = () => {
     if (gameName.value.length < 1 || gameName.value.startsWith(' ')) {
       throw new Error('Game name must be at least 1 character long and not start with a space');
@@ -24,11 +31,12 @@ const CreateGame = () => {
     try {
       event.preventDefault();
       setError('');
+      checkUserLoggedIn();
       checkGameName();
       setLoading('createGame', true);
       await createGame(gameName.value, playerLimit.value, user);
     } catch (error) {
-      setError(`${error.message} Are you signed in?`);
+      setError(`${error.message}`);
     } finally {
       setLoading('createGame', false);
       gameName.reset();
@@ -45,10 +53,12 @@ const CreateGame = () => {
           placeHolder={'Game Name...'}
           value={gameName.value}
           onChange={gameName.onChange}
-          buttonStyles={authSectionStyles.authButton}
+          buttonStyles={
+            'p-4 w-[185px] flex justify-center border rounded-lg bg-slate-500 text-white hover:bg-sky-600 transition ease-in-and-out duration-700'
+          }
           buttonType={'submit'}
           loadingState={loading('createGame')}
-          buttonLabel={loading('createGame') ? <ButtonSpinner /> : 'Create Game'}>
+          buttonLabel={loading('createGame') ? <ButtonSpinner styles={'animate-spin h-6 w-6'} /> : 'Create Game'}>
           <div className="my-8">
             <PlayerGridForm
               playerGridLabel={'Players: '}
