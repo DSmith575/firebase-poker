@@ -24,6 +24,11 @@ const routes = [
     label: 'Sign out',
     element: <SignOut />,
   },
+  {
+    path: '/currentGame/:id',
+    label: 'Current Game',
+    element: '<GamePage />',
+  },
 ];
 
 export default routes;
