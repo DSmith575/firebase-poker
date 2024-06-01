@@ -1,10 +1,9 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
-import Signout from '../../components/authentication/Signout';
 import { AuthContextProvider, useUserAuth } from '../../context/FirestoreAuthContext';
 import { BrowserRouter } from 'react-router-dom';
 import { act } from 'react';
-import { signOut } from 'firebase/auth';
+import Signout from '../../components/authentication/Signout';
 
 jest.mock('firebase/auth', () => ({
   getAuth: jest.fn(),
