@@ -7,11 +7,6 @@ jest.mock('firebase/auth', () => ({
   getAuth: jest.fn(),
 }));
 
-jest.mock('../../context/FirestoreAuthContext', () => ({
-  AuthContextProvider: ({ children }) => <div>{children}</div>,
-  useUserAuth: jest.fn(),
-}));
-
 describe('AuthForm', () => {
   test('should render AuthForm component', async () => {
     const formLabel = 'Test Form';

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import useGameList from '../../../../hooks/games/useGameList';
-import { ImSpinner2 } from 'react-icons/im';
 import InputField from '../../../input/Input';
 import MobileGamesList from './MobileGameList';
 import GameListCarousel from '../../../carousel/GameListCarousel';
+import ButtonSpinner from '../../../spinner/ButtonSpinner';
 
 const GameList = () => {
   const [filter, setFilter] = useState(false);
@@ -25,7 +25,7 @@ const GameList = () => {
         <div className="">
           {loading('gameList') ? (
             <div className="flex items-center justify-center z-50">
-              <ImSpinner2 className="animate-spin h-10 w-10 text-black" />
+              <ButtonSpinner styles="animate-spin h-10 w-10 text-black" />
             </div>
           ) : (
             <>
