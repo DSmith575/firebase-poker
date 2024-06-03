@@ -1,8 +1,8 @@
 import JoinGame from '../JoinGame';
 import LeaveGame from '../LeaveGame';
-import { getRandomColor } from '../../../../utils/game/getRandomColor';
 import { useUserAuth } from '../../../../context/FirestoreAuthContext';
 import { GiCardRandom } from 'react-icons/gi';
+import GoToGame from '../GoToGame';
 
 const GameCard = ({ game }) => {
   const { user } = useUserAuth();
@@ -16,9 +16,12 @@ const GameCard = ({ game }) => {
         Lobby: {game.joinedPlayers.length}/{game.totalPlayers}
       </p>
       {game.joinedPlayers.includes(user) ? (
-        <LeaveGame game={game} player={user} />
+        <>
+          <GoToGame game={game} />
+          <LeaveGame game={game} player={user} />
+        </>
       ) : (
-        <JoinGame gameId={game.id} gameStarted={game.owner} playerList={game.joinedPlayers} totalPlayers={game.totalPlayers} />
+        <JoinGame gameId={game.id} playerList={game.joinedPlayers} totalPlayers={game.totalPlayers} />
       )}
     </section>
   );

@@ -5,7 +5,7 @@ import Button from '../../button/Button';
 import useLoading from '../../../hooks/loading/useLoading';
 import ButtonSpinner from '../../spinner/ButtonSpinner';
 
-const JoinGame = ({ gameId, gameStarted, playerList, totalPlayers }) => {
+const JoinGame = ({ gameId, playerList, totalPlayers }) => {
   const { user } = useUserAuth();
   const [error, setError] = useState('');
   const { loading, setLoading } = useLoading();
@@ -24,7 +24,7 @@ const JoinGame = ({ gameId, gameStarted, playerList, totalPlayers }) => {
         return setError('This game is full');
       }
       setError('');
-      await joinGame(user, gameId, gameStarted);
+      await joinGame(user, gameId);
     } catch (error) {
       setError(error);
     } finally {
