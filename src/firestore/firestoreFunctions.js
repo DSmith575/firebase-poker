@@ -3,14 +3,14 @@ import {
   collection,
   addDoc,
   setDoc,
-  getDoc,
-  getDocs,
   onSnapshot,
   query,
   arrayUnion,
   doc,
   updateDoc,
   orderBy,
+  arrayRemove,
+  deleteDoc,
 } from 'firebase/firestore';
 
 export const createGame = async (gameName, playerLength, ownerId) => {
@@ -52,6 +52,18 @@ export const joinGame = async (playerId, gameId, currentTurn) => {
       currentTurn: currentTurn,
       discarded: [],
     });
+  } catch (error) {
+    return error;
+  }
+};
+
+export const leaveGame = async (playerId, gameId) => {
+  try {
+    const playerRef = doc(firestore, 'games', gameId, 'players', playerId);
+    const gameRef = doc(firestore, 'games', gameId);
+
+    await updateDoc(gameRef, { joinedPlayers: arrayRemove(playerId) });
+    await deleteDoc(playerRef);
   } catch (error) {
     return error;
   }
