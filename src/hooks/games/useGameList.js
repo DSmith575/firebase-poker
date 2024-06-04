@@ -21,9 +21,7 @@ const useGameList = (filter) => {
           const updatedGameList = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
           // Filter the list of games, only shows games that have not started
           const filterList = updatedGameList.filter((game) =>
-            filter
-              ? game.owner === user && game.started === false
-              : game.started === false && game.totalPlayers !== game.joinedPlayers.length,
+            filter ? game.owner === user && game.started === false : game.started === false,
           );
           setGames(filterList);
         },

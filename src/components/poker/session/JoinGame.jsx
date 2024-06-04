@@ -40,7 +40,7 @@ const JoinGame = ({ gameId, playerList, totalPlayers }) => {
         onClick={handleJoinGame}
         label={loading('joinGame') ? <ButtonSpinner styles={'w-6 h-6 animate-spin'} /> : 'Join Game'}
         styles={
-          'inline-flex items-center px-3 py-2 text-md font-medium text-center text-white bg-slate-500 rounded-lg hover:bg-sky-600 transition ease-in-and-out duration-700 '
+          'items-center px-3 py-2 text-md font-medium text-center text-white bg-slate-500 rounded-lg hover:bg-sky-600 transition ease-in-and-out duration-700 ml-4'
         }
       />
     </>

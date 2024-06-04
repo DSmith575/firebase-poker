@@ -33,10 +33,10 @@ const LeaveGame = ({ game, player }) => {
       <Button
         type={'button'}
         onClick={handleLeaveGame}
-        label={loading('leaveGame') ? <ButtonSpinner styles={'w-6 h-6 animate-spin'} /> : 'Leave Game'}
-        styles={
-          'inline-flex items-center px-3 py-2 text-md font-medium text-center text-white rounded-lg transition ease-in-and-out duration-700 bg-slate-500 hover:bg-sky-600'
-        }
+        label={loading('leaveGame') ? <ButtonSpinner styles={'flex w-6 h-6 animate-spin'} /> : 'Leave Game'}
+        styles={`items-center px-3 py-2 
+        text-md font-medium text-center text-white 
+        rounded-lg transition ease-in-and-out duration-700 bg-slate-500 hover:bg-sky-600`}
       />
     </>
   );
