@@ -11,7 +11,7 @@ import {
   orderBy,
   arrayRemove,
   deleteDoc,
-  getDoc,
+  getDocs,
 } from 'firebase/firestore';
 
 export const createGame = async (gameName, playerLength, ownerId) => {
@@ -24,6 +24,9 @@ export const createGame = async (gameName, playerLength, ownerId) => {
       started: false,
       joinedPlayers: [],
     });
+
+    await joinGame(ownerId, newGameRef.id);
+
     return newGameRef.id;
   } catch (error) {
     return error;
@@ -45,13 +48,6 @@ export const joinGame = async (playerId, gameId) => {
   try {
     const playerRef = doc(firestore, 'games', gameId, 'players', playerId);
     const gameRef = doc(firestore, 'games', gameId);
-
-    // const checkIfOwner = await getDoc(gameRef);
-    // const gameData = checkIfOwner.data();
-
-    // if (playerId === gameData.owner) {
-    //   console.log('hit');
-    // }
 
     await updateDoc(gameRef, { joinedPlayers: arrayUnion(playerId) });
 
@@ -75,6 +71,17 @@ export const leaveGame = async (playerId, gameId) => {
 
     await updateDoc(gameRef, { joinedPlayers: arrayRemove(playerId) });
     await deleteDoc(playerRef);
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getGame = async (gameId) => {
+  try {
+    const playerRef = collection(firestore, 'games', gameId, 'players');
+    const playerSnapshot = await getDocs(playerRef);
+    const players = playerSnapshot.docs.map((doc) => doc.data());
+    return players;
   } catch (error) {
     return error;
   }

@@ -2,6 +2,7 @@ import HomePage from '../pages/homePage/HomePage';
 import LoginPage from '../pages/auth/LoginPage';
 import SignOut from '../components/authentication/Signout';
 import GamePage from '../pages/games/GamePage';
+import Game from '../components/poker/session/Game';
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/login',
     label: 'Login',
     element: <LoginPage />,
+  },
+  {
+    path: '/games/:id',
+    label: 'Game',
+    element: <Game />,
   },
   {
     path: '/signout',
