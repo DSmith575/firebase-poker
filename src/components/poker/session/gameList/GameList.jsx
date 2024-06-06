@@ -11,12 +11,10 @@ const GameList = () => {
   const { games, loading } = useGameList(filterCreated, filterJoined);
 
   const changeFilter = () => {
-    setFilterJoined(false);
     setFilterCreated(!filterCreated);
   };
 
   const changeJoined = () => {
-    setFilterCreated(false);
     setFilterJoined(!filterJoined);
   };
 

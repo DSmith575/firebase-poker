@@ -4,7 +4,7 @@ import { getGame } from '../../firestore/firestoreFunctions';
 
 const useGameLobby = (id) => {
   const [gameLobby, setGameLobby] = useState([]);
-  const { setLoading } = useLoading();
+  const { loading, setLoading } = useLoading();
 
   const fetchGameLobby = async () => {
     try {
@@ -23,7 +23,7 @@ const useGameLobby = (id) => {
     fetchGameLobby();
   }, [id]);
 
-  return { gameLobby };
+  return { gameLobby, loading };
 };
 
 export default useGameLobby;

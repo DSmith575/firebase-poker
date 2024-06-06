@@ -1,17 +1,15 @@
 import { useParams } from 'react-router-dom';
 import useGameLobby from '../../../hooks/games/useGameLobby';
-import useLoading from '../../../hooks/loading/useLoading';
 import ButtonSpinner from '../../spinner/ButtonSpinner';
 
 const Game = () => {
   const { id } = useParams();
-  const { gameLobby } = useGameLobby(id);
-  const { loading } = useLoading();
+  const { gameLobby, loading } = useGameLobby(id);
 
   return (
     <>
       {loading('gameLobby') ? (
-        <div className="flex items-center justify-center z-50 bg-black">
+        <div className="flex items-center justify-center z-50">
           <ButtonSpinner styles="animate-spin h-10 w-10 text-black" />
         </div>
       ) : (
