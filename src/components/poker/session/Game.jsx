@@ -1,27 +1,23 @@
 import { useParams } from 'react-router-dom';
-import { getGame } from '../../../firestore/firestoreFunctions';
-import { useEffect, useState } from 'react';
-import { useUserAuth } from '../../../context/FirestoreAuthContext';
+import useGameLobby from '../../../hooks/games/useGameLobby';
+import useLoading from '../../../hooks/loading/useLoading';
+import ButtonSpinner from '../../spinner/ButtonSpinner';
 
 const Game = () => {
   const { id } = useParams();
-  const { user } = useUserAuth();
-  const [game, setGame] = useState([]);
-
-  useEffect(() => {
-    const fetchGame = async () => {
-      const game = await getGame(id);
-      setGame(game);
-    };
-    fetchGame();
-  }, []);
+  const { gameLobby } = useGameLobby(id);
+  const { loading } = useLoading();
 
   return (
     <>
-      {game && (
+      {loading('gameLobby') ? (
+        <div className="flex items-center justify-center z-50 bg-black">
+          <ButtonSpinner styles="animate-spin h-10 w-10 text-black" />
+        </div>
+      ) : (
         <section className="grid grid-cols-6 grid-rows-3">
           <div className="flex row-start-2 col-span-6 justify-evenly">
-            {game.map((player) => (
+            {gameLobby.map((player) => (
               <div className="border rounded-lg h-[200px]  flex flex-col" key={player.playerId}>
                 <h1 className="font-bold">Player: {player.playerId}</h1>
                 {/* <p>Current Turn: {player.currentTurn === false ? 'no' : 'yes'}</p> */}
