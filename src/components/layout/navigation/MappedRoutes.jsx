@@ -1,9 +1,14 @@
 import routes from '../../../router/routerList';
 import { NavLink } from 'react-router-dom';
+import { useUserAuth } from '../../../context/FirestoreAuthContext';
 
 const MappedRoutes = () => {
+  const { user } = useUserAuth();
   // Filter out the route that has the path '/games/:id' so that it isn't showing in the navbar
-  const filteredRoutes = routes.filter((route) => route.path !== '/games/:id');
+  let filteredRoutes = routes.filter((route) => route.path !== '/games/:id');
+  user
+    ? (filteredRoutes = filteredRoutes.filter((route) => route.path !== '/login'))
+    : (filteredRoutes = filteredRoutes.filter((route) => route.path !== '/signout' && route.path !== '/games'));
   return (
     <ul className="flex gap-4 mt-2 md:flex-row md:gap-2 md:mr-4 md:px-4">
       {filteredRoutes.map((route, index) => (

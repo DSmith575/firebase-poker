@@ -17,7 +17,7 @@ const routes = [
   },
   {
     path: '/login',
-    label: 'Login',
+    label: 'Sign Up / Sign In',
     element: <LoginPage />,
   },
   {
