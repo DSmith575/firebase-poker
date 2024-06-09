@@ -38,7 +38,7 @@ const JoinGame = ({ gameId, playerList, totalPlayers }) => {
       <Button
         type={'button'}
         onClick={handleJoinGame}
-        label={loading('joinGame') ? <ButtonSpinner styles={'w-6 h-6 animate-spin'} /> : 'Join Game'}
+        label={loading('joinGame') ? <ButtonSpinner styles={'w-6 h-6 animate-spin'} /> : 'Join'}
         styles={
           'items-center px-3 py-2 text-md font-medium text-center text-white bg-slate-500 rounded-lg hover:bg-sky-600 transition ease-in-and-out duration-700 ml-4'
         }

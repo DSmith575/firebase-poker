@@ -11,11 +11,11 @@ const GameListCarousel = ({ games }) => {
       <Swiper
         modules={[EffectCoverflow, Navigation, Autoplay]}
         effect={'coverflow'}
-        autoplay={{
-          disableOnInterface: false,
-          delay: 3000,
-          pauseOnMouseEnter: true,
-        }}
+        // autoplay={{
+        //   disableOnInterface: false,
+        //   delay: 3000,
+        //   pauseOnMouseEnter: true,
+        // }}
         spaceBetween={30}
         slidesPerView={3}
         navigation={true}

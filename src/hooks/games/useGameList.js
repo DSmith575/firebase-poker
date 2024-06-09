@@ -26,7 +26,6 @@ const useGameList = (filterCreated, filterJoined) => {
           }
           if (filterJoined) {
             const filterJoinedGames = updatedGameList.filter((game) => game.joinedPlayers.includes(user));
-            console.log(filterJoinedGames);
             return setGames(filterJoinedGames);
           }
 
