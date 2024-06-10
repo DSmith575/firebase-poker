@@ -11,7 +11,7 @@ const useGameLobby = (id) => {
   const fetchGameLobby = async () => {
     try {
       setLoading('gameLobby', true);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // await new Promise((resolve) => setTimeout(resolve, 2000));
       const gameData = await getLobbyGameInformation(id);
       setGameData(gameData);
       const unsubscribe = gameLobbyPlayers(id, (players) => {
