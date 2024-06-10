@@ -10,8 +10,18 @@ const useGameLobby = (id) => {
     try {
       setLoading('gameLobby', true);
       // await new Promise((resolve) => setTimeout(resolve, 2000));
-      const game = await getGame(id);
-      setGameLobby(game);
+
+      // const game = await getGame(id);
+      // setGameLobby(game);
+      const unsubscribe = getGame(id, (players) => {
+        setGameLobby(players);
+      });
+
+      return () => {
+        if (unsubscribe) {
+          unsubscribe();
+        }
+      };
     } catch (error) {
       console.log(error);
     } finally {
@@ -21,7 +31,7 @@ const useGameLobby = (id) => {
 
   useEffect(() => {
     fetchGameLobby();
-  }, [id]);
+  }, []);
 
   return { gameLobby, loading };
 };

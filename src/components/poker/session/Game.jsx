@@ -9,9 +9,13 @@ const Game = () => {
   const { id } = useParams();
   const { gameLobby, loading } = useGameLobby(id);
   const { user } = useUserAuth();
-  // console.log(gameLobby[0].playerId);
+
   const handleConfirm = () => {
-    // const x = confirmGame(id, gameLobby[0].playerId);
+    confirmGame(id, user, true);
+  };
+
+  const handleUnReady = () => {
+    confirmGame(id, user, false);
   };
 
   return (
@@ -32,7 +36,26 @@ const Game = () => {
                   <span className={'font-bold'}>Ready: </span>
                   {player.readyCheck.toString()}
                 </p>
-                {user && <Button onClick={handleConfirm} label={'Confirm'} />}
+                <div className="flex justify-center">
+                  {user === player.playerId &&
+                    (player.readyCheck === false ? (
+                      <Button
+                        onClick={handleConfirm}
+                        label={'Ready'}
+                        styles={
+                          'items-center px-3 py-2 text-md font-medium text-center text-white bg-slate-500 rounded-lg hover:bg-sky-600 transition ease-in-and-out duration-700'
+                        }
+                      />
+                    ) : (
+                      <Button
+                        label={'Not ready'}
+                        onClick={handleUnReady}
+                        styles={
+                          'items-center px-3 py-2 text-md font-medium text-center text-white bg-slate-500 rounded-lg hover:bg-sky-600 transition ease-in-and-out duration-700'
+                        }
+                      />
+                    ))}
+                </div>
               </div>
             ))}
           </div>

@@ -76,21 +76,42 @@ export const leaveGame = async (playerId, gameId) => {
   }
 };
 
-export const getGame = async (gameId) => {
+// export const getGame = async (gameId) => {
+//   try {
+//     const playerRef = collection(firestore, 'games', gameId, 'players');
+//     const playerSnapshot = await getDocs(playerRef);
+
+//     const players = playerSnapshot.docs.map((doc) => doc.data());
+//     return players;
+//   } catch (error) {
+//     return error;
+//   }
+// };
+
+export const getGame = (gameId, callback) => {
   try {
     const playerRef = collection(firestore, 'games', gameId, 'players');
-    const playerSnapshot = await getDocs(playerRef);
-    const players = playerSnapshot.docs.map((doc) => doc.data());
-    return players;
+    const unsubscribe = onSnapshot(
+      playerRef,
+      (snapshot) => {
+        const players = snapshot.docs.map((doc) => doc.data());
+        callback(players);
+      },
+      (error) => {
+        console.error('Error fetching game data: ', error);
+      },
+    );
+
+    return unsubscribe;
   } catch (error) {
-    return error;
+    console.error('Error setting up listener: ', error);
   }
 };
 
-export const confirmGame = async (gameId, playerId) => {
+export const confirmGame = async (gameId, playerId, readyState) => {
   try {
-    const playerRef = collection(firestore, 'games', gameId, 'players');
-    console.log(playerRef);
+    const playerRef = doc(firestore, 'games', gameId, 'players', playerId);
+    await updateDoc(playerRef, { readyCheck: readyState });
   } catch (error) {
     return error;
   }
