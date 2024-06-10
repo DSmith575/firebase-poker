@@ -1,10 +1,18 @@
 import { useParams } from 'react-router-dom';
 import useGameLobby from '../../../hooks/games/useGameLobby';
 import ButtonSpinner from '../../spinner/ButtonSpinner';
+import Button from '../../button/Button';
+import { confirmGame } from '../../../firestore/firestoreFunctions';
+import { useUserAuth } from '../../../context/FirestoreAuthContext';
 
 const Game = () => {
   const { id } = useParams();
   const { gameLobby, loading } = useGameLobby(id);
+  const { user } = useUserAuth();
+  // console.log(gameLobby[0].playerId);
+  const handleConfirm = () => {
+    // const x = confirmGame(id, gameLobby[0].playerId);
+  };
 
   return (
     <>
@@ -24,7 +32,7 @@ const Game = () => {
                   <span className={'font-bold'}>Ready: </span>
                   {player.readyCheck.toString()}
                 </p>
-                <button className="">Confirm</button>
+                {user && <Button onClick={handleConfirm} label={'Confirm'} />}
               </div>
             ))}
           </div>

@@ -15,12 +15,14 @@ const GameCard = ({ game }) => {
         Lobby: {game.joinedPlayers.length}/{game.totalPlayers}
       </p>
       {game.joinedPlayers.includes(user) ? (
-        <div>
+        <div className="flex justify-center">
           <GoToGame game={game} label={'Lobby'} />
           <LeaveGame game={game} player={user} />
         </div>
       ) : (
-        <JoinGame gameId={game.id} playerList={game.joinedPlayers} totalPlayers={game.totalPlayers} />
+        <div className="flex justify-center">
+          <JoinGame gameId={game.id} playerList={game.joinedPlayers} totalPlayers={game.totalPlayers} />
+        </div>
       )}
     </section>
   );

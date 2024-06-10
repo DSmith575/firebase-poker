@@ -87,6 +87,15 @@ export const getGame = async (gameId) => {
   }
 };
 
+export const confirmGame = async (gameId, playerId) => {
+  try {
+    const playerRef = collection(firestore, 'games', gameId, 'players');
+    console.log(playerRef);
+  } catch (error) {
+    return error;
+  }
+};
+
 export const startGame = async () => {
   /*
   wait for each player to click start game?
