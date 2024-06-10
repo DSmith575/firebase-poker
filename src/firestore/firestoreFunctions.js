@@ -12,6 +12,7 @@ import {
   arrayRemove,
   deleteDoc,
   getDocs,
+  getDoc,
 } from 'firebase/firestore';
 
 export const createGame = async (gameName, playerLength, ownerId) => {
@@ -88,7 +89,17 @@ export const leaveGame = async (playerId, gameId) => {
 //   }
 // };
 
-export const getGame = (gameId, callback) => {
+export const getLobbyGameInformation = async (gameId) => {
+  try {
+    const gameRef = doc(firestore, 'games', gameId);
+    const gameSnapshot = await getDoc(gameRef);
+    return gameSnapshot.data();
+  } catch (error) {
+    return error;
+  }
+};
+
+export const gameLobbyPlayers = (gameId, callback) => {
   try {
     const playerRef = collection(firestore, 'games', gameId, 'players');
     const unsubscribe = onSnapshot(

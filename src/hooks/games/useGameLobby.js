@@ -1,19 +1,20 @@
 import { useState, useEffect } from 'react';
 import useLoading from '../loading/useLoading';
-import { getGame } from '../../firestore/firestoreFunctions';
+import { gameLobbyPlayers } from '../../firestore/firestoreFunctions';
+import { getLobbyGameInformation } from '../../firestore/firestoreFunctions';
 
 const useGameLobby = (id) => {
   const [gameLobby, setGameLobby] = useState([]);
+  const [gameData, setGameData] = useState({});
   const { loading, setLoading } = useLoading();
 
   const fetchGameLobby = async () => {
     try {
       setLoading('gameLobby', true);
       // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // const game = await getGame(id);
-      // setGameLobby(game);
-      const unsubscribe = getGame(id, (players) => {
+      const gameData = await getLobbyGameInformation(id);
+      setGameData(gameData);
+      const unsubscribe = gameLobbyPlayers(id, (players) => {
         setGameLobby(players);
       });
 
@@ -33,7 +34,7 @@ const useGameLobby = (id) => {
     fetchGameLobby();
   }, []);
 
-  return { gameLobby, loading };
+  return { gameLobby, loading, gameData };
 };
 
 export default useGameLobby;
