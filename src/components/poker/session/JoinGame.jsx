@@ -23,7 +23,7 @@ const JoinGame = ({ gameId, playerList, totalPlayers }) => {
       if (totalPlayers === playerList.length) {
         return setError('This game is full');
       }
-      setError('');
+
       await joinGame(user, gameId);
     } catch (error) {
       setError(error);
