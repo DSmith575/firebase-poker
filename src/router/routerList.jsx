@@ -22,12 +22,12 @@ const routes = [
     element: <LoginPage />,
   },
   {
-    path: '/games/lobby/:id',
+    path: '/games/lobby/:gameId',
     label: 'Game',
     element: <GameLobby />,
   },
   {
-    path: '/games/session/:id',
+    path: '/games/session/:gameId',
     label: 'Poker',
     element: <GamePage />,
   },

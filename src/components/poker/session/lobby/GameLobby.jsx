@@ -2,34 +2,33 @@ import { NavLink, useParams } from 'react-router-dom';
 import useGameLobby from '../../../../hooks/games/useGameLobby';
 import ButtonSpinner from '../../../spinner/ButtonSpinner';
 import Button from '../../../button/Button';
-import { confirmGame } from '../../../../firestore/firestoreFunctions';
+import { confirmGame, startGame } from '../../../../firestore/firestoreFunctions';
 import { useUserAuth } from '../../../../context/FirestoreAuthContext';
 
 const Game = () => {
-  const { id } = useParams();
-  const { gameLobby, gameData, loading } = useGameLobby(id);
+  const { gameId } = useParams();
+  const { gameLobby, gameData, loading } = useGameLobby(gameId);
   const { user } = useUserAuth();
-
   console.log(gameData);
 
   const handleConfirm = () => {
-    confirmGame(id, user, true);
+    confirmGame(gameId, user, true);
   };
 
   const handleUnReady = () => {
-    confirmGame(id, user, false);
+    confirmGame(gameId, user, false);
   };
 
   const handleGameStart = () => {
-    alert('test');
+    startGame(gameId);
   };
-
   return (
     <>
       {loading('gameLobby') ? (
         <ButtonSpinner styles="animate-spin h-10 w-10 text-black" />
       ) : (
         <section className="grid grid-cols-6 grid-rows-3">
+          <h1 className={'font-bold flex col-span-6 justify-center items-center'}>{gameData.gameName}</h1>
           <div className="flex row-start-2 col-span-6 justify-evenly">
             {gameLobby.map((player) => (
               <div className={'relative group'}>
@@ -39,7 +38,7 @@ const Game = () => {
                   <h1 className="font-bold">Player: {player.playerId}</h1>
                   <p className={`text-center mb-8 mt-4 mx-auto rounded-md`}>
                     <span className={'font-bold'}>Ready: </span>
-                    {player.readyCheck.toString()}
+                    {player.readyCheck === false ? 'No' : 'Yes'}
                   </p>
                   <div className="flex justify-center">
                     {user === player.playerId &&
@@ -64,16 +63,16 @@ const Game = () => {
           {/* Check every player in the lobby array is ready and render the start button */}
           {user === gameData.owner && gameLobby.every((player) => player.readyCheck) && (
             <div className={'row-start-3 col-span-full flex justify-center items-center mt-4'}>
-              <NavLink
+              <button
                 onClick={handleGameStart}
-                to={`/games/session/${id}`}
+                to={`/games/session/${gameId}`}
                 className={`flex px-3 py-2 h-16 w-32 text-md font-medium
               justify-center items-center
               text-white bg-green-500 rounded-lg hover:bg-green-600
               transition ease-in-and-out duration-700
               `}>
                 Start Game
-              </NavLink>
+              </button>
             </div>
           )}
         </section>

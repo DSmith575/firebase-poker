@@ -128,7 +128,13 @@ export const confirmGame = async (gameId, playerId, readyState) => {
   }
 };
 
-export const startGame = async () => {
+export const startGame = async (gameId) => {
+  try {
+    const gameRef = doc(firestore, 'games', gameId);
+    await updateDoc(gameRef, { started: true });
+  } catch (error) {
+    return error;
+  }
   /*
   wait for each player to click start game?
   use counter to keep track if all players have pressed start
