@@ -5,7 +5,7 @@ import Button from '../../button/Button';
 import useLoading from '../../../hooks/loading/useLoading';
 import ButtonSpinner from '../../spinner/ButtonSpinner';
 
-const JoinGame = ({ gameId, gameStarted, playerList, totalPlayers }) => {
+const JoinGame = ({ gameId, playerList, totalPlayers }) => {
   const { user } = useUserAuth();
   const [error, setError] = useState('');
   const { loading, setLoading } = useLoading();
@@ -23,8 +23,8 @@ const JoinGame = ({ gameId, gameStarted, playerList, totalPlayers }) => {
       if (totalPlayers === playerList.length) {
         return setError('This game is full');
       }
-      setError('');
-      await joinGame(user, gameId, gameStarted);
+
+      await joinGame(user, gameId);
     } catch (error) {
       setError(error);
     } finally {
@@ -38,9 +38,9 @@ const JoinGame = ({ gameId, gameStarted, playerList, totalPlayers }) => {
       <Button
         type={'button'}
         onClick={handleJoinGame}
-        label={loading('joinGame') ? <ButtonSpinner styles={'w-6 h-6 animate-spin'} /> : 'Join Game'}
+        label={loading('joinGame') ? <ButtonSpinner styles={'w-6 h-6 animate-spin'} /> : 'Join'}
         styles={
-          'inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 '
+          'items-center px-3 py-2 text-md font-medium text-center text-white bg-slate-500 rounded-lg hover:bg-sky-600 transition ease-in-and-out duration-700'
         }
       />
     </>

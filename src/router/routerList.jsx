@@ -1,6 +1,8 @@
 import HomePage from '../pages/homePage/HomePage';
 import LoginPage from '../pages/auth/LoginPage';
 import SignOut from '../components/authentication/Signout';
+import GameLobby from '../components/poker/session/lobby/GameLobby';
+import GameLobbyPage from '../pages/games/GameListPage';
 import GamePage from '../pages/games/GamePage';
 
 const routes = [
@@ -12,12 +14,22 @@ const routes = [
   {
     path: '/games',
     label: 'Games',
-    element: <GamePage />,
+    element: <GameLobbyPage />,
   },
   {
     path: '/login',
-    label: 'Login',
+    label: 'Sign Up / Sign In',
     element: <LoginPage />,
+  },
+  {
+    path: '/games/lobby/:gameId',
+    label: 'Game',
+    element: <GameLobby />,
+  },
+  {
+    path: '/games/session/:gameId',
+    label: 'Poker',
+    element: <GamePage />,
   },
   {
     path: '/signout',

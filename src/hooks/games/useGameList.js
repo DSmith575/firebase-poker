@@ -3,7 +3,7 @@ import { getGameList } from '../../firestore/firestoreFunctions';
 import useLoading from '../loading/useLoading';
 import { useUserAuth } from '../../context/FirestoreAuthContext';
 
-const useGameList = (filter) => {
+const useGameList = (filterCreated, filterJoined) => {
   const [games, setGames] = useState([]);
   const { loading, setLoading } = useLoading();
   const { user } = useUserAuth();
@@ -20,12 +20,17 @@ const useGameList = (filter) => {
         callback: (snapshot) => {
           const updatedGameList = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
           // Filter the list of games, only shows games that have not started
-          const filterList = updatedGameList.filter((game) =>
-            filter
-              ? game.owner === user && game.started === false
-              : game.started === false && game.totalPlayers !== game.joinedPlayers.length,
-          );
-          setGames(filterList);
+          if (filterCreated) {
+            const filterCreatedGames = updatedGameList.filter((game) => game.owner === user);
+            return setGames(filterCreatedGames);
+          }
+          if (filterJoined) {
+            const filterJoinedGames = updatedGameList.filter((game) => game.joinedPlayers.includes(user));
+            return setGames(filterJoinedGames);
+          }
+
+          const filterNotStartedGames = updatedGameList.filter((game) => game.started === false);
+          return setGames(filterNotStartedGames);
         },
       });
     } catch (error) {
@@ -37,7 +42,7 @@ const useGameList = (filter) => {
 
   useEffect(() => {
     fetchGames();
-  }, [filter]);
+  }, [filterCreated, filterJoined]);
 
   return { games, loading };
 };
