@@ -15,8 +15,14 @@ import {
   getDoc,
 } from 'firebase/firestore';
 
+import { createDeck, shuffleDeck } from '../utils/poker/createDeck';
+
+// Creates a deck when a game is made and also shuffles it in prep for the game
 export const createGame = async (gameName, playerLength, ownerId) => {
   try {
+    const deck = createDeck();
+    const shuffledDeck = shuffleDeck(deck);
+
     const gameRef = collection(firestore, 'games');
     const newGameRef = await addDoc(gameRef, {
       owner: ownerId,
@@ -24,6 +30,7 @@ export const createGame = async (gameName, playerLength, ownerId) => {
       totalPlayers: playerLength,
       started: false,
       joinedPlayers: [],
+      deck: shuffledDeck,
     });
 
     await joinGame(ownerId, newGameRef.id);
@@ -58,7 +65,8 @@ export const joinGame = async (playerId, gameId) => {
       playerId: playerId,
       currentTurn: false,
       readyCheck: false,
-      discarded: [],
+      hand: [],
+      hasMadeTurn: false,
     });
   } catch (error) {
     return error;
@@ -138,19 +146,33 @@ export const confirmGame = async (gameId, playerId, readyState) => {
   }
 };
 
-export const startGame = async (gameId, gameState) => {
+export const startGame = async (gameId, players) => {
   try {
     const gameRef = doc(firestore, 'games', gameId);
     await updateDoc(gameRef, { started: true });
+    await pickStartingPlayer(gameId, players);
   } catch (error) {
     return error;
   }
-  /*
+};
+
+// Get the list of players from the firebase joinedPlayers array (gameLobby)
+// Run a random function to pick one of the players to be the starting player for the game
+export const pickStartingPlayer = async (gameId, players) => {
+  try {
+    const getPlayerStartTurn = Math.floor(Math.random() * players.length);
+    const startingPlayer = players[getPlayerStartTurn];
+    const playerRef = doc(firestore, 'games', gameId, 'players', startingPlayer.playerId);
+    await updateDoc(playerRef, { currentTurn: true });
+  } catch (error) {
+    return error;
+  }
+};
+/*
   wait for each player to click start game?
   use counter to keep track if all players have pressed start
   once started, pick random player and set their turn to true
   */
-};
 
 /*
 turn: discard x cards
