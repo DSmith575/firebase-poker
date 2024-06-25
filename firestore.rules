@@ -4,8 +4,11 @@ service cloud.firestore {
     match /games/{gameId} {
       allow read, create: if request.auth != null;
       allow delete: if request.auth != null && request.auth.uid == resource.data.owner;
-     	allow update: if request.auth != null && (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['joinedPlayers']) || request.auth.uid == resource.data.owner);
-      
+allow update: if request.auth != null && (
+  (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['joinedPlayers']) && request.resource.data.joinedPlayers != null) ||
+  (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['deck']) && request.resource.data.deck != null) ||
+  request.auth.uid == resource.data.owner
+);      
       match /players/{playerId} {
         allow read, update: if request.auth != null && exists(/databases/$(database)/documents/games/$(gameId)/players/$(request.auth.uid));
         allow create: if request.auth != null && get(/databases/$(database)/documents/games/$(gameId)).data.started == false;

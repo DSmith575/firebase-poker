@@ -11,7 +11,6 @@ import {
   orderBy,
   arrayRemove,
   deleteDoc,
-  getDocs,
   getDoc,
 } from 'firebase/firestore';
 
@@ -188,6 +187,80 @@ export const drawPlayercards = async (gameId, numberOfCardsToDraw) => {
     throw error;
   }
 };
+
+export const getPlayerHand = async (gameId, playerId, callback) => {
+  try {
+    const playerRef = doc(firestore, 'games', gameId, 'players', playerId);
+    const unsubscribe = onSnapshot(
+      playerRef,
+      (snapshot) => {
+        console.log(snapshot.data());
+        const playerData = snapshot.data();
+        callback(playerData.hand);
+      },
+      (error) => {
+        console.error('Error fetching player hand:', error);
+      },
+    );
+
+    return unsubscribe;
+  } catch (error) {
+    console.error('Error fetching player hand:', error);
+    throw error; // Throw error to handle it in calling code
+  }
+};
+
+const drawCardsFromDeck = async (gameId, count) => {
+  const gameRef = doc(firestore, 'games', gameId);
+  const gameSnapshot = await getDoc(gameRef);
+  const gameData = gameSnapshot.data();
+  const deck = gameData.deck;
+
+  // Draw the required number of cards from the deck
+  const drawnCards = deck.slice(0, count);
+  const updatedDeck = deck.slice(count);
+
+  // Update the deck in Firestore
+  await updateDoc(gameRef, { deck: updatedDeck });
+
+  return drawnCards;
+};
+
+export const removeSelectedCardsAndDrawNew = async (gameId, playerId, selectedCards) => {
+  try {
+    const playerRef = doc(firestore, 'games', gameId, 'players', playerId);
+    const playerSnapshot = await getDoc(playerRef);
+    const playerData = playerSnapshot.data();
+
+    // Remove selected cards from the player's hand
+    const updatedHand = playerData.hand.filter((card) => {
+      return !selectedCards.some(
+        (selectedCard) => selectedCard.suit === card.suit && selectedCard.rank.label === card.rank.label,
+      );
+    });
+
+    // Update the player's hand with the remaining cards
+    await updateDoc(playerRef, { hand: updatedHand });
+
+    // Draw new cards from the deck
+    const newCards = await drawCardsFromDeck(gameId, selectedCards.length);
+
+    // Fetch the updated hand after removal
+    const updatedPlayerSnapshot = await getDoc(playerRef);
+    const updatedPlayerData = updatedPlayerSnapshot.data();
+    const finalHand = [...updatedPlayerData.hand, ...newCards];
+
+    // Update the player's hand with new cards
+    await updateDoc(playerRef, { hand: finalHand });
+
+    console.log('Selected cards removed and new cards drawn.');
+    return finalHand; // Optionally return the updated hand array
+  } catch (error) {
+    console.error('Error removing selected cards and drawing new ones:', error);
+    throw error;
+  }
+};
+
 /*
   wait for each player to click start game?
   use counter to keep track if all players have pressed start
@@ -200,15 +273,3 @@ then can end turn
 once both players have made their choices
 only cards in hand are counted
 */
-
-// export const getGame = async (gameId) => {
-//   try {
-//     const playerRef = collection(firestore, 'games', gameId, 'players');
-//     const playerSnapshot = await getDocs(playerRef);
-
-//     const players = playerSnapshot.docs.map((doc) => doc.data());
-//     return players;
-//   } catch (error) {
-//     return error;
-//   }
-// };
