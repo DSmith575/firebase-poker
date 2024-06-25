@@ -9,7 +9,6 @@ const Game = () => {
   const { gameId } = useParams();
   const { gameLobby, gameData, loading } = useGameLobby(gameId);
   const { user } = useUserAuth();
-  console.log(gameData);
 
   const handleConfirm = () => {
     confirmGame(gameId, user, true);
@@ -29,6 +28,7 @@ const Game = () => {
       ) : (
         <section className="grid grid-cols-6 grid-rows-3">
           <h1 className={'font-bold flex col-span-6 justify-center items-center'}>{gameData.gameName}</h1>
+          <p className={'col-span-6 text-center'}>Game Started: {gameData.started === true ? 'Yes' : 'No'}</p>
           <div className="flex row-start-2 col-span-6 justify-evenly">
             {gameLobby.map((player) => (
               <div className={'relative group'}>
@@ -65,7 +65,7 @@ const Game = () => {
             <div className={'row-start-3 col-span-full flex justify-center items-center mt-4'}>
               <button
                 onClick={handleGameStart}
-                to={`/games/session/${gameId}`}
+                // to={`/games/session/${gameId}`}
                 className={`flex px-3 py-2 h-16 w-32 text-md font-medium
               justify-center items-center
               text-white bg-green-500 rounded-lg hover:bg-green-600

@@ -89,11 +89,21 @@ export const leaveGame = async (playerId, gameId) => {
 //   }
 // };
 
-export const getLobbyGameInformation = async (gameId) => {
+export const getLobbyGameInformation = async (gameId, callback) => {
   try {
     const gameRef = doc(firestore, 'games', gameId);
-    const gameSnapshot = await getDoc(gameRef);
-    return gameSnapshot.data();
+    const unsubscribe = onSnapshot(
+      gameRef,
+      (snapshot) => {
+        const gameData = snapshot.data();
+        callback(gameData);
+      },
+      (error) => {
+        console.error('Error fetching game data: ', error);
+      },
+    );
+
+    return unsubscribe;
   } catch (error) {
     return error;
   }
@@ -128,7 +138,7 @@ export const confirmGame = async (gameId, playerId, readyState) => {
   }
 };
 
-export const startGame = async (gameId) => {
+export const startGame = async (gameId, gameState) => {
   try {
     const gameRef = doc(firestore, 'games', gameId);
     await updateDoc(gameRef, { started: true });
