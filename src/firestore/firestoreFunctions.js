@@ -206,7 +206,7 @@ export const getPlayerHand = async (gameId, playerId, callback) => {
     return unsubscribe;
   } catch (error) {
     console.error('Error fetching player hand:', error);
-    throw error; // Throw error to handle it in calling code
+    throw error;
   }
 };
 
@@ -215,12 +215,9 @@ const drawCardsFromDeck = async (gameId, count) => {
   const gameSnapshot = await getDoc(gameRef);
   const gameData = gameSnapshot.data();
   const deck = gameData.deck;
-
-  // Draw the required number of cards from the deck
   const drawnCards = deck.slice(0, count);
   const updatedDeck = deck.slice(count);
 
-  // Update the deck in Firestore
   await updateDoc(gameRef, { deck: updatedDeck });
 
   return drawnCards;
@@ -231,32 +228,42 @@ export const removeSelectedCardsAndDrawNew = async (gameId, playerId, selectedCa
     const playerRef = doc(firestore, 'games', gameId, 'players', playerId);
     const playerSnapshot = await getDoc(playerRef);
     const playerData = playerSnapshot.data();
-
-    // Remove selected cards from the player's hand
     const updatedHand = playerData.hand.filter((card) => {
       return !selectedCards.some(
         (selectedCard) => selectedCard.suit === card.suit && selectedCard.rank.label === card.rank.label,
       );
     });
 
-    // Update the player's hand with the remaining cards
     await updateDoc(playerRef, { hand: updatedHand });
 
-    // Draw new cards from the deck
     const newCards = await drawCardsFromDeck(gameId, selectedCards.length);
 
-    // Fetch the updated hand after removal
     const updatedPlayerSnapshot = await getDoc(playerRef);
     const updatedPlayerData = updatedPlayerSnapshot.data();
     const finalHand = [...updatedPlayerData.hand, ...newCards];
 
-    // Update the player's hand with new cards
     await updateDoc(playerRef, { hand: finalHand });
+    // Set this players currentTurn to false
+    // Set the other plays currentTurn to true
 
-    console.log('Selected cards removed and new cards drawn.');
-    return finalHand; // Optionally return the updated hand array
+    return finalHand;
   } catch (error) {
     console.error('Error removing selected cards and drawing new ones:', error);
+    throw error;
+  }
+};
+
+export const changeTurns = async (gameId, players, currentPlayerId) => {
+  try {
+    const currentPlayerIndex = players.findIndex((player) => player.playerId === currentPlayerId);
+    const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    const currentPlayerRef = doc(firestore, 'games', gameId, 'players', players[currentPlayerIndex].playerId);
+    const nextPlayerRef = doc(firestore, 'games', gameId, 'players', players[nextPlayerIndex].playerId);
+
+    await updateDoc(currentPlayerRef, { currentTurn: false });
+    await updateDoc(nextPlayerRef, { currentTurn: true });
+  } catch (error) {
+    console.error('Error changing turns:', error);
     throw error;
   }
 };

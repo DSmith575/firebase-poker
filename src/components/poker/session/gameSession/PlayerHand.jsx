@@ -1,19 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const PlayerHand = ({ hand, handleSelectCard, handleRemoveSelected }) => {
   const [selectedCards, setSelectedCards] = useState([]);
 
   const toggleCardSelection = (card) => {
-    if (selectedCards.includes(card)) {
-      setSelectedCards(selectedCards.filter((selectedCard) => selectedCard !== card));
-    } else {
-      setSelectedCards([...selectedCards, card]);
-    }
+    setSelectedCards((prevSelectedCards) => {
+      if (prevSelectedCards.includes(card)) {
+        return prevSelectedCards.filter((selectedCard) => selectedCard !== card);
+      } else {
+        return [...prevSelectedCards, card];
+      }
+    });
   };
+
+  useEffect(() => {
+    handleSelectCard(selectedCards);
+  }, [selectedCards, handleSelectCard]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await handleRemoveSelected(selectedCards);
+    setSelectedCards([]);
   };
 
   return (
