@@ -32,6 +32,11 @@ const routes = [
     element: <GamePage />,
   },
   {
+    path: '/games/session/:gameId/endScreen',
+    label: 'End Screen',
+    element: '',
+  },
+  {
     path: '/signout',
     label: 'Sign out',
     element: <SignOut />,

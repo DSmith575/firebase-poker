@@ -171,12 +171,12 @@ export const drawPlayercards = async (gameId, numberOfCardsToDraw) => {
 
     let shuffledDeck = shuffleDeck(gameData.deck);
 
-    for (let playerId of gameData.joinedPlayers) {
+    for (const playerId of gameData.joinedPlayers) {
       const playerRef = doc(firestore, 'games', gameId, 'players', playerId);
       const drawnCards = shuffledDeck.slice(0, numberOfCardsToDraw);
       const remainingDeck = shuffledDeck.slice(numberOfCardsToDraw);
-      await updateDoc(gameRef, { deck: remainingDeck });
-      await updateDoc(playerRef, { hand: drawnCards });
+
+      await Promise.all([updateDoc(gameRef, { deck: remainingDeck }), updateDoc(playerRef, { hand: drawnCards })]);
 
       shuffledDeck = remainingDeck;
     }
@@ -194,7 +194,6 @@ export const getPlayerHand = async (gameId, playerId, callback) => {
     const unsubscribe = onSnapshot(
       playerRef,
       (snapshot) => {
-        console.log(snapshot.data());
         const playerData = snapshot.data();
         callback(playerData.hand);
       },
@@ -210,24 +209,37 @@ export const getPlayerHand = async (gameId, playerId, callback) => {
   }
 };
 
+// Initial function when game has started. Draws 5 cards from the deck for the player
 const drawCardsFromDeck = async (gameId, count) => {
-  const gameRef = doc(firestore, 'games', gameId);
-  const gameSnapshot = await getDoc(gameRef);
-  const gameData = gameSnapshot.data();
-  const deck = gameData.deck;
-  const drawnCards = deck.slice(0, count);
-  const updatedDeck = deck.slice(count);
+  try {
+    const gameRef = doc(firestore, 'games', gameId);
+    const gameSnapshot = await getDoc(gameRef);
+    const gameData = gameSnapshot.data();
+    const deck = gameData.deck;
 
-  await updateDoc(gameRef, { deck: updatedDeck });
+    if (!deck || deck.length < count) {
+      throw new Error('Not enough cards in deck to draw');
+    }
 
-  return drawnCards;
+    const drawnCards = deck.slice(0, count);
+    const updatedDeck = deck.slice(count);
+
+    await updateDoc(gameRef, { deck: updatedDeck });
+
+    return drawnCards;
+  } catch (error) {
+    console.error('Error drawing cards from deck:', error);
+    throw error;
+  }
 };
 
+// Removes the selected cards from the player's hand and draws new cards from the deck based on the number of selected cards
 export const removeSelectedCardsAndDrawNew = async (gameId, playerId, selectedCards) => {
   try {
     const playerRef = doc(firestore, 'games', gameId, 'players', playerId);
     const playerSnapshot = await getDoc(playerRef);
     const playerData = playerSnapshot.data();
+
     const updatedHand = playerData.hand.filter((card) => {
       return !selectedCards.some(
         (selectedCard) => selectedCard.suit === card.suit && selectedCard.rank.label === card.rank.label,
@@ -240,11 +252,9 @@ export const removeSelectedCardsAndDrawNew = async (gameId, playerId, selectedCa
 
     const updatedPlayerSnapshot = await getDoc(playerRef);
     const updatedPlayerData = updatedPlayerSnapshot.data();
-    const finalHand = [...updatedPlayerData.hand, ...newCards];
 
+    const finalHand = [...updatedPlayerData.hand, ...newCards];
     await updateDoc(playerRef, { hand: finalHand });
-    // Set this players currentTurn to false
-    // Set the other plays currentTurn to true
 
     return finalHand;
   } catch (error) {
@@ -256,27 +266,33 @@ export const removeSelectedCardsAndDrawNew = async (gameId, playerId, selectedCa
 export const changeTurns = async (gameId, players, currentPlayerId) => {
   try {
     const currentPlayerIndex = players.findIndex((player) => player.playerId === currentPlayerId);
+    if (currentPlayerIndex === -1) {
+      throw new Error('Current player not found in players list');
+    }
     const nextPlayerIndex = (currentPlayerIndex + 1) % players.length;
+
     const currentPlayerRef = doc(firestore, 'games', gameId, 'players', players[currentPlayerIndex].playerId);
     const nextPlayerRef = doc(firestore, 'games', gameId, 'players', players[nextPlayerIndex].playerId);
 
-    await updateDoc(currentPlayerRef, { currentTurn: false });
+    // Update the current players turn and the next players turn
+    await updateDoc(currentPlayerRef, { currentTurn: false, hasMadeTurn: true });
+
     await updateDoc(nextPlayerRef, { currentTurn: true });
+
+    const allPlayers = await Promise.all(
+      players.map(async (player) => {
+        const playerDoc = await getDoc(doc(firestore, 'games', gameId, 'players', player.playerId));
+        return { ...player, ...playerDoc.data() };
+      }),
+    );
+
+    const allPlayersHaveMadeTurn = allPlayers.every((player) => player.hasMadeTurn);
+
+    // if (allPlayersHaveMadeTurn) {
+    //   return true;
+    //     }
   } catch (error) {
     console.error('Error changing turns:', error);
     throw error;
   }
 };
-
-/*
-  wait for each player to click start game?
-  use counter to keep track if all players have pressed start
-  once started, pick random player and set their turn to true
-  */
-
-/*
-turn: discard x cards
-then can end turn
-once both players have made their choices
-only cards in hand are counted
-*/

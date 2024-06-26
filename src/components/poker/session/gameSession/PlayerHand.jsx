@@ -38,7 +38,7 @@ const PlayerHand = ({ hand, handleSelectCard, handleRemoveSelected }) => {
             {card.suit} {card.rank.label}
           </div>
         ))}
-      <button>Discard Selected</button>
+      <button>Discard Selected Cards/End Turn</button>
     </form>
   );
 };

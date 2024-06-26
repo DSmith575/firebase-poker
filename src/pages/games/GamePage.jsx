@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useUserAuth } from '../../context/FirestoreAuthContext';
 import { changeTurns, getPlayerHand, removeSelectedCardsAndDrawNew } from '../../firestore/firestoreFunctions';
 import { useEffect, useState } from 'react';
@@ -12,17 +12,21 @@ const GamePage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCards, setSelectedCards] = useState([]);
   const { gameLobby } = useGameLobby(gameId);
+  const navigate = useNavigate();
 
-  console.log(gameLobby);
   useEffect(() => {
-    let unsubscribePlayerHand;
-
     const fetchPlayerHand = async () => {
       try {
-        unsubscribePlayerHand = await getPlayerHand(gameId, user, (playerData) => {
+        const unsubscribePlayerHand = await getPlayerHand(gameId, user, (playerData) => {
           setPlayerHand(playerData);
           setLoading(false);
         });
+
+        return () => {
+          if (unsubscribePlayerHand) {
+            unsubscribePlayerHand();
+          }
+        };
       } catch (error) {
         console.error('Error fetching player hand:', error);
         setLoading(false);
@@ -30,12 +34,6 @@ const GamePage = () => {
     };
 
     fetchPlayerHand();
-
-    return () => {
-      if (unsubscribePlayerHand) {
-        unsubscribePlayerHand(); // Cleanup listener
-      }
-    };
   }, [gameId, user]);
 
   const handleSelectCard = (selectedCards) => {
@@ -45,7 +43,11 @@ const GamePage = () => {
   const handleRemoveSelected = async () => {
     try {
       await removeSelectedCardsAndDrawNew(gameId, user, selectedCards);
+      // const x =
       await changeTurns(gameId, gameLobby, user);
+      // if (x === true) {
+      //   navigate(`/games/session/${gameId}/endScreen`);
+      // }
     } catch (error) {
       console.error('Error removing selected cards and drawing new ones:', error);
     }
