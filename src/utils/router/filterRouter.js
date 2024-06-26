@@ -1,20 +1,16 @@
+import { ROUTE_LABELS } from '../../router/routerLabels';
+
+const excludedRoutesForAuthenticated = [ROUTE_LABELS.LOGIN, ROUTE_LABELS.GAME_LOBBY, ROUTE_LABELS.POKER, ROUTE_LABELS.END_SCREEN];
+
+const excludedRoutesForUnauthenticated = [
+  ROUTE_LABELS.SIGN_OUT,
+  ROUTE_LABELS.GAME_LOBBY,
+  ROUTE_LABELS.GAMES,
+  ROUTE_LABELS.POKER,
+  ROUTE_LABELS.END_SCREEN,
+];
+
 export const filterRoutes = (routes, user) => {
-  if (user) {
-    return routes.filter(
-      (route) =>
-        route.path !== '/login' &&
-        route.path !== '/games/lobby/:gameId' &&
-        route.path !== '/games/session/:gameId' &&
-        route.path !== '/games/session/:gameId/endScreen',
-    );
-  } else {
-    return routes.filter(
-      (route) =>
-        route.path !== '/signout' &&
-        route.path !== '/games/lobby/:gameId' &&
-        route.path !== '/games' &&
-        route.path !== '/games/session/:gameId' &&
-        route.path !== '/games/session/:gameId/endScreen',
-    );
-  }
+  const excludedRoutes = user ? excludedRoutesForAuthenticated : excludedRoutesForUnauthenticated;
+  return routes.filter((route) => !excludedRoutes.includes(route.label));
 };

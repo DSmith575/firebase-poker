@@ -7,6 +7,7 @@ service cloud.firestore {
 allow update: if request.auth != null && (
   (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['joinedPlayers']) && request.resource.data.joinedPlayers != null) ||
   (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['deck']) && request.resource.data.deck != null) ||
+  (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['gameFinished']) && request.resource.data.gameFinished != null) ||
   request.auth.uid == resource.data.owner
 );      
       match /players/{playerId} {

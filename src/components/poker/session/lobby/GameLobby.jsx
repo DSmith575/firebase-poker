@@ -33,10 +33,10 @@ const Game = () => {
           <h1 className={'font-bold flex col-span-6 justify-center items-center'}>{gameData.gameName}</h1>
           <div className="flex row-start-2 col-span-6 justify-evenly">
             {gameLobby.map((player) => (
-              <div className={'relative group'}>
+              <div className={'relative group'} key={player.playerId}>
                 <div
-                  class={`absolute -inset-1 bg-gradient-to-r from-green-500 via-red-500 to-violet-600 rounded-3xl blur transition duration-1000 ${player.readyCheck === true ? 'opacity-80 animate-pulse' : 'opacity-0'}`}></div>
-                <div className={`border rounded-lg h-[200px] flex flex-col relative bg-slate-100`} key={player.playerId}>
+                  className={`absolute -inset-1 bg-gradient-to-r from-green-500 via-red-500 to-violet-600 rounded-3xl blur transition duration-1000 ${player.readyCheck === true ? 'opacity-80 animate-pulse' : 'opacity-0'}`}></div>
+                <div className={`border rounded-lg h-[200px] flex flex-col relative bg-slate-100`}>
                   <h1 className="font-bold">Player: {player.playerId}</h1>
                   <p className={`text-center mb-8 mt-4 mx-auto rounded-md`}>
                     <span className={'font-bold'}>Ready: </span>

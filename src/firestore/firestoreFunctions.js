@@ -27,6 +27,7 @@ export const createGame = async (gameName, playerLength, ownerId) => {
       gameName: gameName,
       totalPlayers: playerLength,
       started: false,
+      gameFinished: false,
       joinedPlayers: [],
       deck: deck,
     });
@@ -86,7 +87,7 @@ export const leaveGame = async (playerId, gameId) => {
 export const getLobbyGameInformation = async (gameId, callback) => {
   try {
     const gameRef = doc(firestore, 'games', gameId);
-    const unsubscribe = onSnapshot(
+    return onSnapshot(
       gameRef,
       (snapshot) => {
         const gameData = snapshot.data();
@@ -96,8 +97,6 @@ export const getLobbyGameInformation = async (gameId, callback) => {
         console.error('Error fetching game data: ', error);
       },
     );
-
-    return unsubscribe;
   } catch (error) {
     return error;
   }
@@ -106,7 +105,7 @@ export const getLobbyGameInformation = async (gameId, callback) => {
 export const gameLobbyPlayers = (gameId, callback) => {
   try {
     const playerRef = collection(firestore, 'games', gameId, 'players');
-    const unsubscribe = onSnapshot(
+    return onSnapshot(
       playerRef,
       (snapshot) => {
         const players = snapshot.docs.map((doc) => doc.data());
@@ -116,8 +115,6 @@ export const gameLobbyPlayers = (gameId, callback) => {
         console.error('Error fetching game data: ', error);
       },
     );
-
-    return unsubscribe;
   } catch (error) {
     console.error('Error setting up listener: ', error);
   }
@@ -137,7 +134,7 @@ export const startGame = async (gameId, players) => {
     const gameRef = doc(firestore, 'games', gameId);
     await updateDoc(gameRef, { started: true });
     await pickStartingPlayer(gameId, players);
-    await drawPlayercards(gameId, 5);
+    await drawPlayerCards(gameId, 5);
   } catch (error) {
     return error;
   }
@@ -158,7 +155,7 @@ export const pickStartingPlayer = async (gameId, players) => {
 
 // Shuffles the deck, then iterates through the joinedPlayers array and deals the cards to each player
 // Updates the deck in the game document with the remaining cards and updates the players hand document
-export const drawPlayercards = async (gameId, numberOfCardsToDraw) => {
+export const drawPlayerCards = async (gameId, numberOfCardsToDraw) => {
   const gameRef = doc(firestore, 'games', gameId);
   try {
     const gameSnapshot = await getDoc(gameRef);
@@ -191,7 +188,7 @@ export const drawPlayercards = async (gameId, numberOfCardsToDraw) => {
 export const getPlayerHand = async (gameId, playerId, callback) => {
   try {
     const playerRef = doc(firestore, 'games', gameId, 'players', playerId);
-    const unsubscribe = onSnapshot(
+    return onSnapshot(
       playerRef,
       (snapshot) => {
         const playerData = snapshot.data();
@@ -201,8 +198,6 @@ export const getPlayerHand = async (gameId, playerId, callback) => {
         console.error('Error fetching player hand:', error);
       },
     );
-
-    return unsubscribe;
   } catch (error) {
     console.error('Error fetching player hand:', error);
     throw error;
@@ -286,13 +281,23 @@ export const changeTurns = async (gameId, players, currentPlayerId) => {
       }),
     );
 
-    const allPlayersHaveMadeTurn = allPlayers.every((player) => player.hasMadeTurn);
+    const allPlayersHaveMadeTurn = allPlayers.every((player) => player.hasMadeTurn === true);
 
-    // if (allPlayersHaveMadeTurn) {
-    //   return true;
-    //     }
+    if (allPlayersHaveMadeTurn === true) {
+      await gameFinished(gameId, allPlayers);
+    }
   } catch (error) {
     console.error('Error changing turns:', error);
+    throw error;
+  }
+};
+
+export const gameFinished = async (gameId, playersFinished) => {
+  try {
+    const gameRef = doc(firestore, 'games', gameId);
+    await updateDoc(gameRef, { gameFinished: playersFinished });
+  } catch (error) {
+    console.error('Error finishing game:', error);
     throw error;
   }
 };

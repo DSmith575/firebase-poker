@@ -5,40 +5,43 @@ import GameLobby from '../components/poker/session/lobby/GameLobby';
 import GameLobbyPage from '../pages/games/GameListPage';
 import GamePage from '../pages/games/GamePage';
 
+import { ROUTE_LABELS } from './routerLabels';
+import GameScorePage from '../pages/games/GameScorePage';
+
 const routes = [
   {
     path: '/',
-    label: 'Home',
+    label: ROUTE_LABELS.HOME,
     element: <HomePage />,
   },
   {
     path: '/games',
-    label: 'Games',
+    label: ROUTE_LABELS.GAMES,
     element: <GameLobbyPage />,
   },
   {
     path: '/login',
-    label: 'Sign Up / Sign In',
+    label: ROUTE_LABELS.LOGIN,
     element: <LoginPage />,
   },
   {
     path: '/games/lobby/:gameId',
-    label: 'Game',
+    label: ROUTE_LABELS.GAME_LOBBY,
     element: <GameLobby />,
   },
   {
     path: '/games/session/:gameId',
-    label: 'Poker',
+    label: ROUTE_LABELS.POKER,
     element: <GamePage />,
   },
   {
-    path: '/games/session/:gameId/endScreen',
-    label: 'End Screen',
-    element: '',
+    path: '/games/session/:gameId/gameResults',
+    label: ROUTE_LABELS.END_SCREEN,
+    element: <GameScorePage />,
   },
   {
     path: '/signout',
-    label: 'Sign out',
+    label: ROUTE_LABELS.SIGN_OUT,
     element: <SignOut />,
   },
 ];

@@ -35,7 +35,7 @@ const Login = () => {
           formLabel={'Login'}
           handleSubmit={handleSignIn}
           buttonStyles={authSectionStyles.authButton}
-          buttonType="submit"
+          buttonType={'submit'}
           loadingState={loading('login')}
           buttonLabel={loading('login') ? <ButtonSpinner styles={'animate-spin h-6 w-6'} /> : 'Sign In Anonymously'}
         />

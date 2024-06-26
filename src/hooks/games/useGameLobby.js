@@ -13,11 +13,11 @@ const useGameLobby = (id) => {
   const fetchGameLobby = async () => {
     try {
       setLoading('gameLobby', true);
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       const unsubscribeGameLobby = await getLobbyGameInformation(id, (game) => {
         setGameData(game);
-        if (game.started) {
-          navigate(`/games/session/${id}`);
+        if (game.started === true) {
+          return navigate(`/games/session/${id}`);
         }
       });
 
