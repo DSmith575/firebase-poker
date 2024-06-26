@@ -2,7 +2,7 @@ import JoinGame from '../JoinGame';
 import LeaveGame from '../LeaveGame';
 import { useUserAuth } from '../../../../context/FirestoreAuthContext';
 import { GiCardRandom } from 'react-icons/gi';
-import GoToGame from '../GoToGame';
+import NavigateLink from '../NavigateLink';
 
 const GameCard = ({ game }) => {
   const { user } = useUserAuth();
@@ -16,7 +16,7 @@ const GameCard = ({ game }) => {
       </p>
       {game.joinedPlayers.includes(user) ? (
         <div className="flex justify-center">
-          <GoToGame game={game} label={'Lobby'} />
+          <NavigateLink navLink={`/games/lobby/${game.id}`} label={'Lobby'} />
           <LeaveGame game={game} player={user} />
         </div>
       ) : (

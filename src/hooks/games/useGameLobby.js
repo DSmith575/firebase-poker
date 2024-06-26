@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const useGameLobby = (id) => {
   const [gameLobby, setGameLobby] = useState([]);
   const [gameData, setGameData] = useState({});
+  const [gameFinished, setGameFinished] = useState(false);
   const { loading, setLoading } = useLoading();
   const navigate = useNavigate();
 
@@ -16,6 +17,10 @@ const useGameLobby = (id) => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       const unsubscribeGameLobby = await getLobbyGameInformation(id, (game) => {
         setGameData(game);
+
+        if (game.gameFinished === true) {
+          return setGameFinished(true);
+        }
         if (game.started === true) {
           return navigate(`/games/session/${id}`);
         }
@@ -40,7 +45,7 @@ const useGameLobby = (id) => {
     fetchGameLobby();
   }, [gameData.started]);
 
-  return { gameLobby, loading, gameData };
+  return { gameLobby, loading, gameData, gameFinished };
 };
 
 export default useGameLobby;

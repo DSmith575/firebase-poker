@@ -282,7 +282,6 @@ export const changeTurns = async (gameId, players, currentPlayerId) => {
     );
 
     const allPlayersHaveMadeTurn = allPlayers.every((player) => player.hasMadeTurn === true);
-
     if (allPlayersHaveMadeTurn === true) {
       await gameFinished(gameId, allPlayers);
     }
@@ -292,10 +291,10 @@ export const changeTurns = async (gameId, players, currentPlayerId) => {
   }
 };
 
-export const gameFinished = async (gameId, playersFinished) => {
+export const gameFinished = async (gameId) => {
   try {
     const gameRef = doc(firestore, 'games', gameId);
-    await updateDoc(gameRef, { gameFinished: playersFinished });
+    await updateDoc(gameRef, { gameFinished: true });
   } catch (error) {
     console.error('Error finishing game:', error);
     throw error;
