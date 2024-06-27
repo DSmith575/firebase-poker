@@ -36,7 +36,7 @@ const useFetchPlayerHand = (gameId, gameLobby) => {
   };
 
   useEffect(() => {
-    // if statment to check user or the gameID exists before fetching player hands
+    // if statement to check user or the gameID exists before fetching player hands
     // Preventing console errors appearing on first load/page refresh
     if (!user || !gameId || !gameLobby) return;
     fetchPlayerHand();

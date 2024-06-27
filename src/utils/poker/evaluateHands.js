@@ -1,32 +1,3 @@
-let players = [
-  {
-    playerId: 'OFitHJ8XtKQrrOLO0LGgGkfxaUP2',
-    readyCheck: true,
-    hasMadeTurn: true,
-    currentTurn: true,
-    hand: [
-      { rank: { label: '3', value: 5 }, suit: 'Heart' },
-      { rank: { label: '4', value: 4 }, suit: 'Heart' },
-      { rank: { label: '2', value: 3 }, suit: 'Heart' },
-      { rank: { label: '2', value: 7 }, suit: 'Club' },
-      { rank: { label: '5', value: 2 }, suit: 'Club' },
-    ],
-  },
-  {
-    playerId: 'lPaJEdCOxyVilnBcZ2H5m6St2Kp1',
-    readyCheck: true,
-    hasMadeTurn: true,
-    currentTurn: false,
-    hand: [
-      { rank: { label: 'A', value: 3 }, suit: 'Club' },
-      { rank: { label: '10', value: 3 }, suit: 'Heart' },
-      { rank: { label: 'J', value: 3 }, suit: 'Heart' },
-      { rank: { label: 'K', value: 2 }, suit: 'Heart' },
-      { rank: { label: 'Q', value: 2 }, suit: 'Heart' },
-    ],
-  },
-];
-
 // Check if all cards have the same suit
 export const isFlush = (hand) => {
   return hand.every((card) => card.suit === hand[0].suit);
@@ -183,7 +154,7 @@ export const isRoyalFlush = (hand) => {
 
 // Evaluate the hand to determine its rank
 export const evaluateHand = (hand) => {
-  const sortedHand = hand.slice().sort((a, b) => b.rank.value - a.rank.value); // Sort by rank value descending
+  const sortedHand = hand.slice().sort((a, b) => b.rank.value - a.rank.value);
   return (
     isRoyalFlush(sortedHand) ||
     isStraightFlush(sortedHand) ||
@@ -232,13 +203,11 @@ export const determineWinner = (playerEvaluations) => {
 
 // Determine the outcome of the game based on the players' evaluations
 export const determineGameOutcome = (players) => {
-  // Ensure players have been set and have valid hands
   if (players.length === 0) return 'No players in the game.';
 
   // Evaluate each player's hand
   const playerEvaluations = evaluatePlayers(players);
 
-  // Determine the winner(s)
   const winners = determineWinner(playerEvaluations);
 
   // Check for draw scenario
@@ -246,27 +215,12 @@ export const determineGameOutcome = (players) => {
     return "It's a draw!";
   } else if (winners.length === 1) {
     const winner = winners[0];
-    return `Player ${winner.playerId} wins with ${winner.evaluation.rank}`;
+    return {
+      winner: winner,
+      label: `Player ${winner.playerId} wins with ${winner.evaluation.rank}`,
+    };
   } else {
     // Handle cases where no clear winner or draw is determined
     return 'Unable to determine the game outcome.';
   }
 };
-
-// Determine and log the game outcome
-const gameOutcome = determineGameOutcome(players);
-console.log(gameOutcome);
-
-// const exampleHand = [
-//     { "rank": { "label": "A", "value": 2 }, "suit": "Heart" },
-//     { "rank": { "label": "10", "value": 3 }, "suit": "Heart" },
-//     { "rank": { "label": "J", "value": 4 }, "suit": "Heart" },
-//     { "rank": { "label": "K", "value": 5 }, "suit": "Heart" },
-//     { "rank": { "label": "Q", "value": 6 }, "suit": "Heart" },
-// ];
-
-// const flushEvaluation = evaluateFlush(exampleHand);
-// const straightEvaluation = evaluateStraight(exampleHand);
-
-// console.log(flushEvaluation); // Should return { rank: 'Flush', value: 5, highCard: 14 } if all cards are Hearts
-// console.log(straightEvaluation);
