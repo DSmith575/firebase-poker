@@ -29,14 +29,19 @@ const Game = () => {
       {loading('gameLobby') ? (
         <ButtonSpinner styles="animate-spin h-10 w-10 text-black" />
       ) : (
-        <section className="grid grid-cols-6 grid-rows-3">
-          <h1 className={'font-bold flex col-span-6 justify-center items-center'}>{gameData.gameName}</h1>
-          <div className="flex row-start-2 col-span-6 justify-evenly">
+        <section className="grid grid-cols-2 grid-rows-1 md:grid-cols-6 md:grid-rows-3 ">
+          <h1 className="font-bold text-4xl text-center col-span-6 flex justify-center items-center mt-4 mb-4">
+            <span className="mr-2">Table:</span>
+            {gameData.gameName}
+          </h1>
+
+          <div className="md:flex col-span-2 md:row-start-2 md:col-span-6 justify-evenly">
             {gameLobby.map((player) => (
               <div className={'relative group'} key={player.playerId}>
                 <div
-                  className={`absolute -inset-1 bg-gradient-to-r from-green-500 via-red-500 to-violet-600 rounded-3xl blur transition duration-1000 ${player.readyCheck === true ? 'opacity-80 animate-pulse' : 'opacity-0'}`}></div>
-                <div className={`border rounded-lg h-[200px] flex flex-col relative bg-slate-100`}>
+                  className={`p-6 mb-4 mx-4 sm:mx-6 md:mx-0 absolute -inset-1 bg-gradient-to-r from-green-500 via-red-500 to-violet-600 rounded-3xl blur transition duration-1000 ${player.readyCheck === true ? 'opacity-80 animate-pulse' : 'opacity-0'}`}></div>
+                <div
+                  className={`border rounded-lg h-[200px] flex flex-col relative bg-slate-100 p-6 mb-4 mx-4 sm:mx-6 md:mx-0 text-center`}>
                   <h1 className="font-bold">Player: {player.playerId}</h1>
                   <p className={`text-center mb-8 mt-4 mx-auto rounded-md`}>
                     <span className={'font-bold'}>Ready: </span>

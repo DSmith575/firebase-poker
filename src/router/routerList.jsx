@@ -4,9 +4,7 @@ import SignOut from '../components/authentication/Signout';
 import GameLobby from '../components/poker/session/lobby/GameLobby';
 import GameLobbyPage from '../pages/games/GameListPage';
 import GamePage from '../pages/games/GamePage';
-
 import { ROUTE_LABELS } from './routerLabels';
-import GameScorePage from '../pages/games/GameScorePage';
 
 const routes = [
   {
@@ -33,11 +31,6 @@ const routes = [
     path: '/games/session/:gameId',
     label: ROUTE_LABELS.POKER,
     element: <GamePage />,
-  },
-  {
-    path: '/games/session/:gameId/gameResults',
-    label: ROUTE_LABELS.END_SCREEN,
-    element: <GameScorePage />,
   },
   {
     path: '/signout',

@@ -14,7 +14,6 @@ const useGameList = (filterCreated, filterJoined) => {
     try {
       setLoading('gameList', true);
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
       return getGameList({
         collectionName: 'games',
         callback: (snapshot) => {

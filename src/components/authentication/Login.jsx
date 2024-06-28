@@ -4,7 +4,6 @@ import { useUserAuth } from '../../context/FirestoreAuthContext';
 import { Navigate } from 'react-router-dom';
 import ButtonSpinner from '../spinner/ButtonSpinner';
 import AuthForm from './forms/AuthForm';
-import { authSectionStyles } from '../../styles/authForm/authFormStyles';
 
 const Login = () => {
   const [error, setError] = useState('');
@@ -30,11 +29,13 @@ const Login = () => {
 
   return (
     <>
-      <section className={authSectionStyles.authBase}>
+      <section className={'sm:relative sm:flex sm:flex-col sm:overflow-hidden w-screen sm:rounded-lg items-center'}>
         <AuthForm
           formLabel={'Login'}
           handleSubmit={handleSignIn}
-          buttonStyles={authSectionStyles.authButton}
+          buttonStyles={
+            'p-4 w-[185px] flex justify-center border rounded-lg bg-slate-500 text-white hover:bg-sky-600 transition ease-in-and-out duration-700'
+          }
           buttonType={'submit'}
           loadingState={loading('login')}
           buttonLabel={loading('login') ? <ButtonSpinner styles={'animate-spin h-6 w-6'} /> : 'Sign In Anonymously'}

@@ -14,8 +14,6 @@ const useFetchPlayerHand = (gameId, gameLobby) => {
     try {
       setLoading('playerHand', true);
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
       const unsubscribePlayerHand = await getPlayerHand(gameId, user, (playerData) => {
         setPlayerHand(playerData);
       });
@@ -46,6 +44,7 @@ const useFetchPlayerHand = (gameId, gameLobby) => {
     setSelectedCards(selectedCards);
   };
 
+  // Remove selected cards/draw new ones and end the players turn
   const handleRemoveSelected = async () => {
     try {
       await removeSelectedCardsAndDrawNew(gameId, user, selectedCards);

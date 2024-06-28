@@ -38,7 +38,8 @@ export const evaluateStraight = (hand) => {
     return {
       rank: 'Straight',
       value: 6,
-      highCard: sortedHand[sortedHand.length - 1].rank.value, // Highest card in the straight
+      highCard: sortedHand[sortedHand.length - 1].rank.value,
+      // Highest card in the straight
     };
   }
   return false;
@@ -75,24 +76,31 @@ export const isMultiples = (hand, count) => {
     valueCounts[card.rank.value] = (valueCounts[card.rank.value] || 0) + 1;
   });
 
-  // Filter out rank values that occur 'count' times
+  console.log(hand);
+  // Filter out rank values that occur n times
   const multiples = Object.keys(valueCounts)
     .filter((value) => valueCounts[value] === count)
     .map(Number);
 
+  console.log(multiples);
   if (multiples.length > 0) {
     // Sort multiples in descending order to get the highest value first
     multiples.sort((a, b) => b - a);
 
+    const nonMultiples = hand.filter((card) => !multiples.includes(card.rank.value)).map((card) => card.rank.value);
+
+    const highCard = Math.max(...nonMultiples);
+
     // Return the highest multiple with its rank and value
     return {
       rank: count === 4 ? 'Four of a Kind' : count === 3 ? 'Three of a Kind' : 'One Pair',
-      value: count === 4 ? 8 : count === 3 ? 4 : 2, // Assign appropriate values for different multiples
-      highCard: multiples[0], // Highest value among the multiples
+      value: count === 4 ? 8 : count === 3 ? 4 : 2,
+      highCard: highCard,
     };
   }
 
-  return false; // Return false if no multiples of 'count' were found
+  // Return false if no multiples of 'count' were found
+  return false;
 };
 
 // Check if the hand contains two pairs with the same rank
@@ -124,13 +132,13 @@ export const isStraightFlush = (hand) => {
   const flushHand = isFlush(hand);
   if (!flushHand) return false;
 
-  const straightHand = isStraight(flushHand);
+  const straightHand = isStraight(hand);
 
   if (straightHand) {
     return {
       rank: 'Straight Flush',
       value: 9,
-      highCard: hand[0].rank.value,
+      highCard: hand[hand.length - 1].rank.value,
     };
   }
 
@@ -154,7 +162,7 @@ export const isRoyalFlush = (hand) => {
 
 // Evaluate the hand to determine its rank
 export const evaluateHand = (hand) => {
-  const sortedHand = hand.slice().sort((a, b) => b.rank.value - a.rank.value);
+  const sortedHand = hand.slice().sort((a, b) => a.rank.value - b.rank.value);
   return (
     isRoyalFlush(sortedHand) ||
     isStraightFlush(sortedHand) ||
@@ -217,7 +225,8 @@ export const determineGameOutcome = (players) => {
     const winner = winners[0];
     return {
       winner: winner,
-      label: `Player ${winner.playerId} wins with ${winner.evaluation.rank}`,
+      label: `${winner.playerId} wins with ${winner.evaluation.rank}`,
+      evaluation: winner.evaluation.rank,
     };
   } else {
     // Handle cases where no clear winner or draw is determined

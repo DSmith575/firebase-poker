@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 const usePlayerHand = ({ handleSelectCard, handleRemoveSelected, isCurrentTurn }) => {
   const [selectedCards, setSelectedCards] = useState([]);
 
+  // Toggle card selection
   const toggleCardSelection = (card) => {
     if (!isCurrentTurn) return;
     setSelectedCards((prevSelectedCards) => {

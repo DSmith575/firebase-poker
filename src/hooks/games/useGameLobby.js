@@ -11,10 +11,12 @@ const useGameLobby = (id) => {
   const { loading, setLoading } = useLoading();
   const navigate = useNavigate();
 
+  // Fetch game lobby information
+  // Hook will fetch the game lobby information and players
+  // Also checks if the game has started or finished
   const fetchGameLobby = async () => {
     try {
       setLoading('gameLobby', true);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
       const unsubscribeGameLobby = await getLobbyGameInformation(id, (game) => {
         setGameData(game);
 
@@ -43,7 +45,7 @@ const useGameLobby = (id) => {
 
   useEffect(() => {
     fetchGameLobby();
-  }, [gameData.started]);
+  }, [gameData.started, gameFinished]);
 
   return { gameLobby, loading, gameData, gameFinished };
 };
