@@ -76,13 +76,11 @@ export const isMultiples = (hand, count) => {
     valueCounts[card.rank.value] = (valueCounts[card.rank.value] || 0) + 1;
   });
 
-  console.log(hand);
   // Filter out rank values that occur n times
   const multiples = Object.keys(valueCounts)
     .filter((value) => valueCounts[value] === count)
     .map(Number);
 
-  console.log(multiples);
   if (multiples.length > 0) {
     // Sort multiples in descending order to get the highest value first
     multiples.sort((a, b) => b - a);

@@ -14,8 +14,6 @@ const JoinGame = ({ gameId, playerList, totalPlayers }) => {
     try {
       setLoading('joinGame', true);
       setError('');
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
       if (playerList.includes(user)) {
         return setError('You are already in this game');
       }

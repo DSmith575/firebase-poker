@@ -17,6 +17,7 @@ const PlayerHand = ({ hand, handleSelectCard, handleRemoveSelected, isCurrentTur
             label="Discard Selected Cards / End Turn"
             styles={` bg-green-500 text-black rounded-md px-2 py-2 hover:bg-green-600 transition ease-in-out duration-300 ${isCurrentTurn ? 'block' : 'hidden'}`}
             onClick={handleSubmit}
+            type={'submit'}
           />
         </div>
         <div className="flex">

@@ -18,18 +18,16 @@ const GamePage = () => {
 
   const evaluatePlayerHands = () => {
     if (!gameLobby || gameLobby.length === 0) {
-      console.log('Game lobby or players not loaded yet.');
       return;
     }
     const checkOutcome = determineGameOutcome(gameLobby);
 
     setWinner([checkOutcome]);
-    console.log(winner[0].evaluation);
   };
 
   useEffect(() => {
     evaluatePlayerHands();
-  }, [gameFinished, gameLobby]);
+  }, [gameFinished]);
 
   return (
     <>
@@ -40,7 +38,7 @@ const GamePage = () => {
 */}
 
       <section className="grid grid-cols-2 grid-rows-4 sm:grid-rows-none md:grid-rows-none">
-        {loading('playerHand' || loading('gameLobby')) ? (
+        {loading('playerHand') ? (
           <ButtonSpinner styles="animate-spin h-10 w-10 text-black" />
         ) : gameFinished ? (
           <div className="col-span-full">

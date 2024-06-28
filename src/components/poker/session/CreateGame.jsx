@@ -33,7 +33,6 @@ const CreateGame = () => {
       checkUserLoggedIn();
       checkGameName();
       setLoading('createGame', true);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
       await createGame(gameName.value, playerLimit.value, user);
     } catch (error) {
       setError(`${error.message}`);

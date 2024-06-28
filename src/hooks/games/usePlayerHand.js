@@ -6,11 +6,16 @@ const usePlayerHand = ({ handleSelectCard, handleRemoveSelected, isCurrentTurn }
   // Toggle card selection
   const toggleCardSelection = (card) => {
     if (!isCurrentTurn) return;
+
     setSelectedCards((prevSelectedCards) => {
-      if (prevSelectedCards.includes(card)) {
-        return prevSelectedCards.filter((selectedCard) => selectedCard !== card);
+      const isCardSelected = prevSelectedCards.includes(card);
+      if (isCardSelected) {
+        const newSelectedCards = prevSelectedCards.filter((selectedCard) => selectedCard !== card);
+        const newCards = newSelectedCards;
+        return newCards;
       } else {
-        return [...prevSelectedCards, card];
+        const newSelectedCards = [...prevSelectedCards, card];
+        return newSelectedCards;
       }
     });
   };
@@ -23,10 +28,9 @@ const usePlayerHand = ({ handleSelectCard, handleRemoveSelected, isCurrentTurn }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isCurrentTurn) {
-      await handleRemoveSelected(selectedCards);
-      setSelectedCards([]);
-    }
+    const currentSelectedCard = selectedCards;
+    await handleRemoveSelected(currentSelectedCard);
+    setSelectedCards([]);
   };
 
   return {

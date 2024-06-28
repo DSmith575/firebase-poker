@@ -12,7 +12,6 @@ const LeaveGame = ({ game, player }) => {
     try {
       setLoading('leaveGame', true);
       setError('');
-      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       if (!game.joinedPlayers.includes(player)) {
         return setError('You are not in this game');
