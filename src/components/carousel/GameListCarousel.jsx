@@ -12,7 +12,7 @@ const GameListCarousel = ({ games }) => {
         modules={[EffectCoverflow, Navigation, Autoplay]}
         effect={'coverflow'}
         autoplay={{
-          disableOnInterface: true,
+          disableOnInterface: false,
           delay: 3000,
           pauseOnMouseEnter: true,
         }}

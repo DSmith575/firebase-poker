@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { createGame } from '../../../firestore/firestoreFunctions';
 import { useUserAuth } from '../../../context/FirestoreAuthContext';
-import { authSectionStyles } from '../../../styles/authForm/authFormStyles';
 import CreateGameForm from '../forms/CreateGameForm';
 import PlayerGridForm from '../forms/PlayerGridForm';
 import ButtonSpinner from '../../spinner/ButtonSpinner';
@@ -34,6 +33,7 @@ const CreateGame = () => {
       checkUserLoggedIn();
       checkGameName();
       setLoading('createGame', true);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       await createGame(gameName.value, playerLimit.value, user);
     } catch (error) {
       setError(`${error.message}`);
@@ -46,7 +46,7 @@ const CreateGame = () => {
 
   return (
     <>
-      <section className={authSectionStyles.authBase}>
+      <section className={'sm:relative sm:flex sm:flex-col sm:overflow-hidden w-screen sm:rounded-lg items-center'}>
         <CreateGameForm
           handleCreateSubmit={handleCreation}
           inputType={'text'}
