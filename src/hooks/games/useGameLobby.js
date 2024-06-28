@@ -7,19 +7,24 @@ import { useNavigate } from 'react-router-dom';
 const useGameLobby = (id) => {
   const [gameLobby, setGameLobby] = useState([]);
   const [gameData, setGameData] = useState({});
+  const [gameFinished, setGameFinished] = useState(false);
   const { loading, setLoading } = useLoading();
   const navigate = useNavigate();
 
+  // Fetch game lobby information
+  // Hook will fetch the game lobby information and players
+  // Also checks if the game has started or finished
   const fetchGameLobby = async () => {
     try {
       setLoading('gameLobby', true);
-      console.log('testing');
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
       const unsubscribeGameLobby = await getLobbyGameInformation(id, (game) => {
         setGameData(game);
-        if (game.started) {
-          console.log('Game started, navigating to game session');
-          navigate(`/games/session/${id}`); // Navigate to game page
+
+        if (game.gameFinished === true) {
+          return setGameFinished(true);
+        }
+        if (game.started === true) {
+          return navigate(`/games/session/${id}`);
         }
       });
 
@@ -40,9 +45,9 @@ const useGameLobby = (id) => {
 
   useEffect(() => {
     fetchGameLobby();
-  }, [gameData.started]);
+  }, [gameData.started, gameFinished]);
 
-  return { gameLobby, loading, gameData };
+  return { gameLobby, loading, gameData, gameFinished };
 };
 
 export default useGameLobby;
