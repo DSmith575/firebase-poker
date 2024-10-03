@@ -2,13 +2,14 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyDvVTxJZ_lLTGhmhsK1bbqPp8XTIKWckL8',
-  authDomain: 'adv-app-dev-assignment.firebaseapp.com',
-  projectId: 'adv-app-dev-assignment',
-  storageBucket: 'adv-app-dev-assignment.appspot.com',
-  messagingSenderId: '923720245338',
-  appId: '1:923720245338:web:1dd5e75ae306ede64c3863',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: REACT_APP_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
