@@ -81,5 +81,7 @@ describe('Login', () => {
     await act(async () => {
       mockRenderComponent(<Login />);
     });
+
+    expect(screen.queryByText('Sign In Anonymously')).not.toBeInTheDocument();
   });
 });
