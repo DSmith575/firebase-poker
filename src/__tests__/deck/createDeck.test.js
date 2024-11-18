@@ -1,10 +1,22 @@
 import { createDeck } from '../../utils/poker/createDeck';
 
 describe('createDeck', () => {
+  test('should test boundary value of 0 for deck length', () => {
+    const deck = createDeck();
+    expect(deck.length).not.toBe(0);
+  });
+
+  test('should test boundary value of 53 for deck length', () => {
+    const deck = createDeck();
+    expect(deck.length).not.toBe(53);
+  });
+
+
   test('should create a deck with 52 cards', () => {
     const deck = createDeck();
     expect(deck.length).toBe(52);
   });
+
 
   test('should create a deck with correct card properties', () => {
     const deck = createDeck();
