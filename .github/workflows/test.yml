@@ -2,8 +2,8 @@ name: Test Suite
 
 on:
   push:
-    branches-ignore:
-      - 'main'
+    # branches-ignore:
+    #   - 'main'
 
 jobs:
   Test-Suite:
