@@ -1,2 +1,5 @@
 {
+    "codesnap.backgroundColor": "transparent",
+    "codesnap.transparentBackground": true,
+    "codesnap.boxShadow": "none"
 }

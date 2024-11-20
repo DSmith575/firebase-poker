@@ -27,4 +27,15 @@ describe('joinGame', () => {
       expect(error.message).toEqual(errorMessage);
     }
   });
+
+  test('should return an error if game is full', async () => {
+    const errorMessage = 'Game is full';
+    const error = new Error(errorMessage);
+    joinGame.mockRejectedValue(error);
+    try {
+      await joinGame(data.playerId, data.gameId);
+    } catch (error) {
+      expect(error.message).toEqual(errorMessage);
+    }
+  });
 });
