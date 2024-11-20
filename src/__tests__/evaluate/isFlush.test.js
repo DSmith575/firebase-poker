@@ -533,46 +533,41 @@ describe('evaluateHand', () => {
     expect(result).toBe("It's a draw!");
   }
 );
-
-// Test winner determined by highest Card
-// test('should return the winner with the highest card', () => {
-//   const players = [
-//     {
-//       playerId: 'player1',
-//       hand: [
-//         { suit: 'hearts', rank: { value: 2 } },
-//         { suit: 'hearts', rank: { value: 3 } },
-//         { suit: 'hearts', rank: { value: 4 } },
-//         { suit: 'hearts', rank: { value: 5 } },
-//         { suit: 'hearts', rank: { value: 6 } },
-//       ],
-//     },
-//     {
-//       playerId: 'player2',
-//       hand: [
-//         { suit: 'hearts', rank: { value: 2 } },
-//         { suit: 'hearts', rank: { value: 3 } },
-//         { suit: 'hearts', rank: { value: 4 } },
-//         { suit: 'hearts', rank: { value: 5 } },
-//         { suit: 'hearts', rank: { value: 7 } },
-//       ],
-//     },
-//   ];
-//   const result = determineGameOutcome(players);
-//   expect(result).toEqual({
-//     winner: {
-//       playerId: 'player2',
-//       hand: [
-//         { suit: 'hearts', rank: { value: 2 } },
-//         { suit: 'hearts', rank: { value: 3 } },
-//         { suit: 'hearts', rank: { value: 4 } },
-//         { suit: 'hearts', rank: { value: 5 } },
-//         { suit: 'hearts', rank: { value: 8 } },
-//       ],
-//     },
-//     label: 'player2 wins with High Card',
-//     evaluation: 'High Card',
-//   });
-// });
 });
 
+// Test winner determined by highest Card
+test('should return the winner with the highest card', () => {
+  const players = [
+    {
+      playerId: 'player1',
+      hand: [
+        { suit: 'hearts', rank: { value: 2 } },
+        { suit: 'hearts', rank: { value: 5 } },
+        { suit: 'club', rank: { value: 7 } },
+        { suit: 'spade', rank: { value: 3 } },
+        { suit: 'hearts', rank: { value: 9 } },
+      ],
+    },
+    {
+      playerId: 'player2',
+      hand: [
+        { suit: 'hearts', rank: { value: 2 } },
+        { suit: 'hearts', rank: { value: 5 } },
+        { suit: 'club', rank: { value: 7 } },
+        { suit: 'spade', rank: { value: 3 } },
+        { suit: 'hearts', rank: { value: 11 } },
+      ],
+    },
+  ];
+  const result = determineGameOutcome(players);
+  expect(result).toEqual({
+    winner: 'player2',
+    label: 'player2 wins with High Card',
+    evaluation: {
+      rank: 'High Card',
+      value: 1,
+      highCard: 11,
+    },
+  });
+
+});

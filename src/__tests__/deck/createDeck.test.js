@@ -42,7 +42,7 @@ describe('createDeck', () => {
   test('should create a deck with correct card suits', () => {
     const deck = createDeck();
     const cardSuits = deck.map((card) => card.suit);
-    const expectedSuits = ['Heart', 'Club', 'Diamond', 'Heart'];
+    const expectedSuits = ['Heart', 'Club', 'Diamond', 'Spade'];
     expect(cardSuits).toEqual(expect.arrayContaining(expectedSuits));
   });
 });
